@@ -1,0 +1,28 @@
+# config.yaml
+# Configuration file for environment settings and global test behavior
+
+# Select which environment to use: dev or staging
+env: dev
+
+# Environment-specific base URLs and authentication
+environments:
+  dev:
+    base_url: "https://reqres.in/api"
+    token: "dev-token-placeholder"
+  staging:
+    base_url: "https://staging.example.com/api"
+    token: "staging-token-placeholder"
+
+# Global timeout for API requests (in seconds)
+timeout_seconds: 5
+
+# Number of retries for transient errors (e.g., 502, 503)
+retry_count: 3
+
+# Delay between retries (in seconds)
+retry_delay: 1
+
+# Headers to use by default unless overridden
+default_headers:
+  Content-Type: "application/json"
+  Accept: "application/json"

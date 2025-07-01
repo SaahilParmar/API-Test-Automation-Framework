@@ -1,0 +1,17 @@
+# Core Testing Framework
+pytest==8.2.0
+
+# HTTP Requests
+requests==2.31.0
+
+# JSON Schema Validation
+jsonschema==4.19.1
+
+# YAML Config Parsing
+PyYAML==6.0.1
+
+# Allure Integration for Pytest
+allure-pytest==2.13.2
+
+# Optional for virtual environments
+virtualenv==20.25.1

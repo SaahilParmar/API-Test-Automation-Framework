@@ -15,8 +15,12 @@ BASE_URL = config["environments"][config["env"]]["base_url"]
 @allure.title("GET List of Users")
 @allure.severity(allure.severity_level.NORMAL)
 def test_get_user_list():
+    print("HEADERS SENT:", get_headers())
     url = f"{BASE_URL}/users?page=2"
     response = requests.get(url, headers=get_headers())
+    print("RESPONSE REQUEST HEADERS:", response.request.headers)
+    print("RESPONSE STATUS:", response.status_code)
+    print("RESPONSE BODY:", response.text)
 
     assert response.status_code == 200
     data = response.json()
@@ -30,8 +34,12 @@ def test_get_user_list():
 @allure.severity(allure.severity_level.CRITICAL)
 @pytest.mark.parametrize("user_id", [1, 2, 5])
 def test_get_single_user(user_id):
+    print("HEADERS SENT:", get_headers())
     url = f"{BASE_URL}/users/{user_id}"
     response = requests.get(url, headers=get_headers())
+    print("RESPONSE REQUEST HEADERS:", response.request.headers)
+    print("RESPONSE STATUS:", response.status_code)
+    print("RESPONSE BODY:", response.text)
 
     assert response.status_code == 200
     data = response.json()
@@ -44,8 +52,12 @@ def test_get_single_user(user_id):
 @allure.title("GET Non-Existent User")
 @allure.severity(allure.severity_level.MINOR)
 def test_get_user_not_found():
+    print("HEADERS SENT:", get_headers())
     url = f"{BASE_URL}/users/9999"
     response = requests.get(url, headers=get_headers())
+    print("RESPONSE REQUEST HEADERS:", response.request.headers)
+    print("RESPONSE STATUS:", response.status_code)
+    print("RESPONSE BODY:", response.text)
 
     assert response.status_code == 404
 
@@ -56,8 +68,12 @@ def test_get_user_not_found():
 @allure.severity(allure.severity_level.CRITICAL)
 @pytest.mark.parametrize("payload", json.load(open("data/post_user_payloads.json")))
 def test_create_user(payload):
+    print("HEADERS SENT:", get_headers())
     url = f"{BASE_URL}/users"
     response = requests.post(url, json=payload, headers=get_headers())
+    print("RESPONSE REQUEST HEADERS:", response.request.headers)
+    print("RESPONSE STATUS:", response.status_code)
+    print("RESPONSE BODY:", response.text)
 
     assert response.status_code == 201
     response_data = response.json()
@@ -70,9 +86,13 @@ def test_create_user(payload):
 @allure.title("POST with Large Payload (Boundary Test)")
 @allure.severity(allure.severity_level.NORMAL)
 def test_create_user_with_large_payload():
+    print("HEADERS SENT:", get_headers())
     payload = json.load(open("data/large_payload.json"))
     url = f"{BASE_URL}/users"
     response = requests.post(url, json=payload, headers=get_headers())
+    print("RESPONSE REQUEST HEADERS:", response.request.headers)
+    print("RESPONSE STATUS:", response.status_code)
+    print("RESPONSE BODY:", response.text)
 
     assert response.status_code == 201
     data = response.json()
@@ -85,8 +105,12 @@ def test_create_user_with_large_payload():
 @allure.title("Validate Standard Headers")
 @allure.severity(allure.severity_level.TRIVIAL)
 def test_headers_validation():
+    print("HEADERS SENT:", get_headers())
     url = f"{BASE_URL}/users?page=1"
     response = requests.get(url, headers=get_headers())
+    print("RESPONSE REQUEST HEADERS:", response.request.headers)
+    print("RESPONSE STATUS:", response.status_code)
+    print("RESPONSE BODY:", response.text)
 
     assert response.status_code == 200
     assert response.headers["Content-Type"].startswith("application/json")

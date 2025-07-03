@@ -26,3 +26,4 @@ retry_delay: 1
 default_headers:
   Content-Type: "application/json"
   Accept: "application/json"
+  x-api-key: "reqres-free-v1"

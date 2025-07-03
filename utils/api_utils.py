@@ -17,7 +17,6 @@ def load_config():
     with open("config/config.yaml", "r") as f:
         return yaml.safe_load(f)
 
-
 def load_schema(schema_filename):
     """
     Load a JSON schema from the schemas folder.
@@ -32,7 +31,6 @@ def load_schema(schema_filename):
     with open(schema_path, "r") as f:
         return json.load(f)
 
-
 def get_headers():
     """
     Get default headers defined in config.yaml.
@@ -41,8 +39,11 @@ def get_headers():
         dict: HTTP headers.
     """
     config = load_config()
-    return config.get("default_headers", {})
-
+    headers = config.get("default_headers", {})
+    allowed = {"Content-Type", "Accept", "x-api-key"}
+    filtered_headers = {k: v for k, v in headers.items() if k in allowed}
+    print("DEBUG: get_headers() returns:", filtered_headers)  # Debug print
+    return filtered_headers
 
 def retry_request(func):
     """
@@ -56,7 +57,6 @@ def retry_request(func):
         @retry_request
         def my_func():
             ...
-
     """
     @wraps(func)
     def wrapper(*args, **kwargs):
@@ -70,12 +70,12 @@ def retry_request(func):
                 return func(*args, **kwargs)
             except requests.RequestException as e:
                 last_exception = e
+                print(f"Retrying ({attempt+1}/{retries}) after error: {e}")
                 time.sleep(delay)
 
         raise last_exception
 
     return wrapper
-
 
 def log_request_response(response):
     """
@@ -102,7 +102,6 @@ def log_request_response(response):
         name="Response Details",
         attachment_type=allure.attachment_type.TEXT
     )
-
 
 def validate_response_schema(response, schema_filename):
     """

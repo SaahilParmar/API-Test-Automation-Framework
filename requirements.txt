@@ -1,17 +1,10 @@
-# Core Testing Framework
-pytest==8.2.0
+# requirements.txt for API Test Automation Framework
+# 
+# This file lists the main dependencies required to run the framework.
+# All sub-dependencies will be resolved automatically by pip from PyPI.
 
-# HTTP Requests
-requests==2.31.0
-
-# JSON Schema Validation
-jsonschema==4.19.1
-
-# YAML Config Parsing
-PyYAML==6.0.1
-
-# Allure Integration for Pytest
-allure-pytest==2.13.2
-
-# Optional for virtual environments
-virtualenv==20.25.1
+allure-pytest   # Allure integration for pytest (test reporting)
+pytest          # Python testing framework
+requests        # HTTP library for API calls
+PyYAML          # YAML parsing for configuration files
+jsonschema      # JSON Schema validation for

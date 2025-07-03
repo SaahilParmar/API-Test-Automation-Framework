@@ -55,12 +55,14 @@ def pytest_configure(config):
     """
     Pytest hook to customize test configuration.
 
-    Sets up markers, Allure environment info, etc.
+    - Sets up custom markers for smoke and regression tests.
+    - Generates Allure environment properties file for reporting.
     """
+    # Register custom markers for test categorization
     config.addinivalue_line("markers", "smoke: mark test as smoke test")
     config.addinivalue_line("markers", "regression: mark test as regression test")
 
-    # Create allure environment properties file
+    # Create Allure environment properties file for reporting context
     with open("reports/environment.properties", "w") as f:
         f.write(f"BaseURL={load_config()['environments'][load_config()['env']]['base_url']}\n")
         f.write("Framework=API Test Automation\n")

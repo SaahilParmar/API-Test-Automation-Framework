@@ -1,3 +1,10 @@
+"""
+test_users_api.py
+
+Automated API tests for the ReqRes API using pytest, requests, and Allure.
+Covers user listing, single user retrieval, negative scenarios, user creation (data-driven and boundary), and header validation.
+"""
+
 import pytest
 import requests
 import json
@@ -15,6 +22,10 @@ BASE_URL = config["environments"][config["env"]]["base_url"]
 @allure.title("GET List of Users")
 @allure.severity(allure.severity_level.NORMAL)
 def test_get_user_list():
+    """
+    Test retrieving a paginated list of users.
+    Validates response status and schema.
+    """
     print("HEADERS SENT:", get_headers())
     url = f"{BASE_URL}/users?page=2"
     response = requests.get(url, headers=get_headers())
@@ -34,6 +45,10 @@ def test_get_user_list():
 @allure.severity(allure.severity_level.CRITICAL)
 @pytest.mark.parametrize("user_id", [1, 2, 5])
 def test_get_single_user(user_id):
+    """
+    Test retrieving a single user by ID.
+    Validates response status and schema.
+    """
     print("HEADERS SENT:", get_headers())
     url = f"{BASE_URL}/users/{user_id}"
     response = requests.get(url, headers=get_headers())
@@ -52,6 +67,10 @@ def test_get_single_user(user_id):
 @allure.title("GET Non-Existent User")
 @allure.severity(allure.severity_level.MINOR)
 def test_get_user_not_found():
+    """
+    Test retrieving a non-existent user.
+    Expects a 404 Not Found response.
+    """
     print("HEADERS SENT:", get_headers())
     url = f"{BASE_URL}/users/9999"
     response = requests.get(url, headers=get_headers())
@@ -68,6 +87,10 @@ def test_get_user_not_found():
 @allure.severity(allure.severity_level.CRITICAL)
 @pytest.mark.parametrize("payload", json.load(open("data/post_user_payloads.json")))
 def test_create_user(payload):
+    """
+    Test creating users with multiple payloads (data-driven).
+    Validates response status and schema.
+    """
     print("HEADERS SENT:", get_headers())
     url = f"{BASE_URL}/users"
     response = requests.post(url, json=payload, headers=get_headers())
@@ -86,6 +109,10 @@ def test_create_user(payload):
 @allure.title("POST with Large Payload (Boundary Test)")
 @allure.severity(allure.severity_level.NORMAL)
 def test_create_user_with_large_payload():
+    """
+    Test creating a user with a large payload (boundary test).
+    Validates response status and checks for required fields in response.
+    """
     print("HEADERS SENT:", get_headers())
     payload = json.load(open("data/large_payload.json"))
     url = f"{BASE_URL}/users"
@@ -105,6 +132,9 @@ def test_create_user_with_large_payload():
 @allure.title("Validate Standard Headers")
 @allure.severity(allure.severity_level.TRIVIAL)
 def test_headers_validation():
+    """
+    Test that standard headers are present and correct in the API response.
+    """
     print("HEADERS SENT:", get_headers())
     url = f"{BASE_URL}/users?page=1"
     response = requests.get(url, headers=get_headers())

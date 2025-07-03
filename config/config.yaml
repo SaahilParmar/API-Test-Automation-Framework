@@ -1,29 +1,33 @@
 # config.yaml
-# Configuration file for environment settings and global test behavior
+# -----------------------------------------------------------------------------
+# Configuration file for environment settings and global test behavior.
+# This file controls which environment is active, API endpoints, authentication,
+# request timeouts, retry logic, and default HTTP headers for all API tests.
+# -----------------------------------------------------------------------------
 
 # Select which environment to use: dev or staging
-env: dev
+env: dev  # Change to 'staging' to run tests against the staging environment
 
-# Environment-specific base URLs and authentication
+# Environment-specific base URLs and authentication tokens
 environments:
   dev:
-    base_url: "https://reqres.in/api"
-    token: "dev-token-placeholder"
+    base_url: "https://reqres.in/api"           # Base URL for dev environment
+    token: "dev-token-placeholder"              # Placeholder token for dev
   staging:
-    base_url: "https://staging.example.com/api"
-    token: "staging-token-placeholder"
+    base_url: "https://staging.example.com/api" # Base URL for staging environment
+    token: "staging-token-placeholder"          # Placeholder token for staging
 
 # Global timeout for API requests (in seconds)
-timeout_seconds: 5
+timeout_seconds: 5  # Maximum time to wait for an API response
 
 # Number of retries for transient errors (e.g., 502, 503)
-retry_count: 3
+retry_count: 3      # How many times to retry a failed request
 
 # Delay between retries (in seconds)
-retry_delay: 1
+retry_delay: 1      # Wait time between retries
 
-# Headers to use by default unless overridden
+# Headers to use by default unless overridden in a specific test or request
 default_headers:
-  Content-Type: "application/json"
-  Accept: "application/json"
-  x-api-key: "reqres-free-v1"
+  Content-Type: "application/json"  # Default content type for requests
+  Accept: "application/json"        # Default accept header for responses
+  x-api-key: "reqres-free-v1"       # Example API key for authentication

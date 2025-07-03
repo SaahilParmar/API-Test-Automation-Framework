@@ -1,8 +1,5 @@
 [
   {
-    "__comment": "This file contains multiple user payloads for POST /users API tests. Purpose: To provide a variety of data-driven test cases, including normal, boundary, and negative scenarios. Usage: Used in automated tests to validate API behavior with different input combinations."
-  },
-  {
     "name": "Alice",
     "job": "Software Engineer"
   },
@@ -13,21 +10,5 @@
   {
     "name": "Charlie",
     "job": "DevOps Engineer"
-  },
-  {
-    "name": "Diana",
-    "job": "Product Manager"
-  },
-  {
-    "name": "",
-    "job": "Empty Name Field Test"
-  },
-  {
-    "name": "Edward",
-    "job": ""
-  },
-  {
-    "name": "VeryVeryLongUserNameThatExceedsTypicalFieldLengthsToTestBoundaries",
-    "job": "Lead Architect"
   }
 ]

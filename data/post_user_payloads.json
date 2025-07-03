@@ -1,5 +1,8 @@
 [
   {
+    "__comment": "This file contains multiple user payloads for POST /users API tests. Purpose: To provide a variety of data-driven test cases, including normal, boundary, and negative scenarios. Usage: Used in automated tests to validate API behavior with different input combinations."
+  },
+  {
     "name": "Alice",
     "job": "Software Engineer"
   },

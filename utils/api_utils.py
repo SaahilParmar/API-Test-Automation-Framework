@@ -1,3 +1,14 @@
+"""
+api_utils.py
+
+Utility functions for API test automation:
+- Loads configuration and schema files.
+- Provides default HTTP headers.
+- Implements request retry logic.
+- Attaches request/response details to Allure reports.
+- Validates API responses against JSON schemas.
+"""
+
 import yaml
 import json
 import os
@@ -87,6 +98,7 @@ def log_request_response(response):
     if response is None:
         return
 
+    # Attach request details to Allure report
     allure.attach(
         f"{response.request.method} {response.request.url}\n\n"
         f"Headers:\n{response.request.headers}\n\n"
@@ -95,6 +107,7 @@ def log_request_response(response):
         attachment_type=allure.attachment_type.TEXT
     )
 
+    # Attach response details to Allure report
     allure.attach(
         f"Status Code: {response.status_code}\n\n"
         f"Headers:\n{response.headers}\n\n"

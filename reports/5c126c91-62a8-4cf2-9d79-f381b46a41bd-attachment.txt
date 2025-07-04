@@ -1,0 +1,6 @@
+DEBUG: get_headers() returns: {'Content-Type': 'application/json', 'Accept': 'application/json', 'x-api-key': 'reqres-free-v1'}
+HEADERS SENT: {'Content-Type': 'application/json', 'Accept': 'application/json', 'x-api-key': 'reqres-free-v1'}
+DEBUG: get_headers() returns: {'Content-Type': 'application/json', 'Accept': 'application/json', 'x-api-key': 'reqres-free-v1'}
+RESPONSE REQUEST HEADERS: {'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': 'application/json', 'Connection': 'keep-alive', 'Content-Type': 'application/json', 'x-api-key': 'reqres-free-v1', 'Content-Length': '45'}
+RESPONSE STATUS: 201
+RESPONSE BODY: {"name":"Charlie","job":"DevOps Engineer","id":"122","createdAt":"2025-07-03T17:31:22.487Z"}

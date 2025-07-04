@@ -1,0 +1,6 @@
+DEBUG: get_headers() returns: {'Content-Type': 'application/json', 'Accept': 'application/json', 'x-api-key': 'reqres-free-v1'}
+HEADERS SENT: {'Content-Type': 'application/json', 'Accept': 'application/json', 'x-api-key': 'reqres-free-v1'}
+DEBUG: get_headers() returns: {'Content-Type': 'application/json', 'Accept': 'application/json', 'x-api-key': 'reqres-free-v1'}
+RESPONSE REQUEST HEADERS: {'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': 'application/json', 'Connection': 'keep-alive', 'Content-Type': 'application/json', 'x-api-key': 'reqres-free-v1'}
+RESPONSE STATUS: 404
+RESPONSE BODY: {}

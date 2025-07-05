@@ -8,3 +8,6 @@ venv/
 
 # Pytest cache directory
 .pytest_cache/
+
+# Reports and coverage data
+reports/

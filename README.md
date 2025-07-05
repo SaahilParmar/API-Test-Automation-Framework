@@ -24,28 +24,6 @@ Target API: [ReqRes Public API](https://reqres.in/)
 
 api_test_framework/ ├── config/ │   └── config.yaml ├── data/ │   ├── large_payload.json │   └── post_user_payloads.json ├── schemas/ │   ├── create_user_schema.json │   ├── single_user_schema.json │   └── user_list_schema.json ├── tests/ │   └── test_users_api.py ├── utils/ │   └── api_utils.py ├── logs/ ├── reports/ ├── requirements.txt ├── README.md ├── troubleshooting_log.md └── conftest.py
 
-api_test_framework/
-├── config/
-│   └── config.yaml
-├── data/
-│   ├── large_payload.json
-│   └── post_user_payloads.json
-├── schemas/
-│   ├── create_user_schema.json
-│   ├── single_user_schema.json
-│   └── user_list_schema.json
-├── tests/
-│   └── test_users_api.py
-├── utils/
-│   └── api_utils.py
-├── logs/
-├── reports/
-├── requirements.txt
-├── README.md
-├── troubleshooting_log.md
-└── conftest.py
-
-`
 📸 *Screenshot of project structure:*  
 `![Project Structure](images/1_project_structure.png)`
 
@@ -56,9 +34,7 @@ api_test_framework/
 ```bash
 # Clone this repo
 git clone https://github.com/YOUR-USERNAME/api_test_automation_framework.git
-cd api_test_automation_framework
-
-# Create virtual environment
+cd eate virtual environment
 python3 -m venv venv
 source venv/bin/activate
 

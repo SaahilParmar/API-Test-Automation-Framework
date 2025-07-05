@@ -1,4 +1,4 @@
-# 🧪 API Test Automation Framework
+`# 🧪 API Test Automation Framework
 
 A professional API testing framework built using **Python**, **Pytest**, and **Allure** for reporting.  
 This framework is designed to test RESTful APIs using data-driven and contract-based testing approaches.  
@@ -24,6 +24,28 @@ Target API: [ReqRes Public API](https://reqres.in/)
 
 api_test_framework/ ├── config/ │   └── config.yaml ├── data/ │   ├── large_payload.json │   └── post_user_payloads.json ├── schemas/ │   ├── create_user_schema.json │   ├── single_user_schema.json │   └── user_list_schema.json ├── tests/ │   └── test_users_api.py ├── utils/ │   └── api_utils.py ├── logs/ ├── reports/ ├── requirements.txt ├── README.md ├── troubleshooting_log.md └── conftest.py
 
+api_test_framework/
+├── config/
+│   └── config.yaml
+├── data/
+│   ├── large_payload.json
+│   └── post_user_payloads.json
+├── schemas/
+│   ├── create_user_schema.json
+│   ├── single_user_schema.json
+│   └── user_list_schema.json
+├── tests/
+│   └── test_users_api.py
+├── utils/
+│   └── api_utils.py
+├── logs/
+├── reports/
+├── requirements.txt
+├── README.md
+├── troubleshooting_log.md
+└── conftest.py
+
+`
 📸 *Screenshot of project structure:*  
 `![Project Structure](images/1_project_structure.png)`
 

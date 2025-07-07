@@ -22,7 +22,7 @@ Target API: [ReqRes Public API](https://reqres.in/)
 
 ## 🗂️ Project Structure
 
-api_test_framework/ ├── config/ │   └── config.yaml ├── data/ │   ├── large_payload.json │   └── post_user_payloads.json ├── schemas/ │   ├── create_user_schema.json │   ├── single_user_schema.json │   └── user_list_schema.json ├── tests/ │   └── test_users_api.py ├── utils/ │   └── api_utils.py ├── logs/ ├── reports/ ├── requirements.txt ├── README.md ├── troubleshooting_log.md └── conftest.py
+![Project_Structure](images/project_structure.jpg)
 
 📸 *Screenshot of project structure:*  
 `![Project Structure](images/1_project_structure.png)`

@@ -24,8 +24,7 @@ Target API: [ReqRes Public API](https://reqres.in/)
 
 ![Project_Structure](images/project_structure.jpg)
 
-📸 *Screenshot of project structure:*  
-`![Project Structure](images/1_project_structure.png)`
+
 
 ---
 

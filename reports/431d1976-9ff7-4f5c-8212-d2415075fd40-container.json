@@ -1,1 +1,0 @@
-{"uuid": "0e7b33a8-74c3-4f9b-9442-993f34d18e3d", "befores": [{"name": "attach_allure_logs", "status": "passed", "start": 1751387973535, "stop": 1751387973535}], "afters": [{"name": "attach_allure_logs::0", "status": "passed", "start": 1751387973562, "stop": 1751387973562}], "start": 1751387973535, "stop": 1751387973562}

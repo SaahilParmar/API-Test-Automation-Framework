@@ -1,1 +1,0 @@
-{"uuid": "f152d137-e12c-44d7-9cfa-74e63e749971", "children": ["dac7aadd-f688-450b-8a0f-c1570ac1a3ef"], "befores": [{"name": "attach_allure_logs", "status": "passed", "start": 1751508633387, "stop": 1751508633388}], "afters": [{"name": "attach_allure_logs::0", "status": "passed", "start": 1751508633963, "stop": 1751508633963}], "start": 1751508633387, "stop": 1751508633963}

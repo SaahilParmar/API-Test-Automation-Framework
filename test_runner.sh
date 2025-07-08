@@ -9,20 +9,16 @@ echo "🧪 API Test Automation Framework - Test Runner"
 echo "================================================"
 
 # Check if virtual environment exists
-if [ ! -d "venv" ]; then
+if [ ! -d ".venv" ]; then
     echo "❌ Virtual environment not found. Creating one..."
-    python3 -m venv venv
+    python3 -m venv .venv
     echo "✅ Virtual environment created."
 fi
 
-# Activate virtual environment
-echo "🔧 Activating virtual environment..."
-source venv/bin/activate
-
 # Check if dependencies are installed
-if ! python -c "import pytest" &> /dev/null; then
+if ! .venv/bin/python -c "import pytest" &> /dev/null; then
     echo "📦 Installing dependencies..."
-    pip install -r requirements.txt
+    .venv/bin/pip install -r requirements.txt
     echo "✅ Dependencies installed."
 fi
 
@@ -112,10 +108,10 @@ run_tests() {
     
     if [ -z "$marker" ]; then
         # Run all tests
-        pytest -v --alluredir=reports/allure-results
+        .venv/bin/python -m pytest -v --alluredir=reports/allure-results
     else
         # Run tests with specific marker
-        pytest -v -m "$marker" --alluredir=reports/allure-results
+        .venv/bin/python -m pytest -v -m "$marker" --alluredir=reports/allure-results
     fi
     
     echo ""
@@ -133,9 +129,9 @@ fi
 category=$1
 
 # Validate pytest installation
-if ! python -c "import pytest" &> /dev/null; then
+if ! .venv/bin/python -c "import pytest" &> /dev/null; then
     echo "❌ pytest is not installed. Please install dependencies:"
-    echo "   pip install -r requirements.txt"
+    echo "   .venv/bin/pip install -r requirements.txt"
     exit 1
 fi
 

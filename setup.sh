@@ -18,38 +18,33 @@ fi
 echo "🐍 Python version: $(python3 --version)"
 
 # Create virtual environment if it doesn't exist
-if [ ! -d "venv" ]; then
+if [ ! -d ".venv" ]; then
     echo "📦 Creating virtual environment..."
-    python3 -m venv venv
+    python3 -m venv .venv
     echo "✅ Virtual environment created successfully!"
 else
     echo "📦 Virtual environment already exists."
 fi
 
-# Activate virtual environment
-echo "🔧 Activating virtual environment..."
-source venv/bin/activate
-
 # Upgrade pip
 echo "⬆️  Upgrading pip..."
-pip install --upgrade pip
+.venv/bin/pip install --upgrade pip
 
 # Install dependencies
 echo "📚 Installing project dependencies..."
-pip install -r requirements.txt
+.venv/bin/pip install -r requirements.txt
 
 # Verify installation
 echo "🔍 Verifying installation..."
-python -c "import pytest, requests, allure, yaml, jsonschema; print('✅ All dependencies installed successfully!')"
+.venv/bin/python -c "import pytest, requests, allure, yaml, jsonschema; print('✅ All dependencies installed successfully!')"
 
 echo ""
 echo "🎉 Setup completed successfully!"
 echo ""
 echo "📋 Next steps:"
-echo "   1. Activate virtual environment: source venv/bin/activate"
-echo "   2. Run smoke tests: ./test_runner.sh smoke"
-echo "   3. Run all tests: ./test_runner.sh all"
-echo "   4. Generate report: allure serve reports/allure-results"
+echo "   1. Run smoke tests: ./test_runner.sh smoke"
+echo "   2. Run all tests: ./test_runner.sh all"
+echo "   3. Generate report: allure serve reports/allure-results"
 echo ""
-echo "💡 Pro tip: Always activate the virtual environment before running tests!"
-echo "   source venv/bin/activate"
+echo "💡 Pro tip: Use the test runner for best experience!"
+echo "   ./test_runner.sh [category]"

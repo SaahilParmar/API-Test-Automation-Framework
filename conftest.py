@@ -62,6 +62,10 @@ def pytest_configure(config):
     config.addinivalue_line("markers", "smoke: mark test as smoke test")
     config.addinivalue_line("markers", "regression: mark test as regression test")
 
+    # Create reports directory if it doesn't exist
+    import os
+    os.makedirs("reports", exist_ok=True)
+    
     # Create Allure environment properties file for reporting context
     with open("reports/environment.properties", "w") as f:
         f.write(f"BaseURL={load_config()['environments'][load_config()['env']]['base_url']}\n")

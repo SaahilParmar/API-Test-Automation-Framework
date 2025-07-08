@@ -3,8 +3,20 @@
 # This file lists the main dependencies required to run the framework.
 # All sub-dependencies will be resolved automatically by pip from PyPI.
 
-allure-pytest   # Allure integration for pytest (test reporting)
-pytest          # Python testing framework
-requests        # HTTP library for API calls
-PyYAML          # YAML parsing for configuration files
-jsonschema      # JSON Schema validation for
+# Core testing dependencies
+allure-pytest>=2.13.0   # Allure integration for pytest (test reporting)
+pytest>=7.4.0          # Python testing framework
+requests>=2.31.0       # HTTP library for API calls
+PyYAML>=6.0           # YAML parsing for configuration files
+jsonschema>=4.19.0    # JSON Schema validation
+
+# Development and CI dependencies
+pytest-cov>=4.1.0     # Coverage reporting for pytest
+pytest-xdist>=3.3.0   # Parallel test execution
+pytest-html>=3.2.0    # HTML test reports
+black>=23.3.0         # Code formatter
+isort>=5.12.0         # Import sorter
+flake8>=6.0.0         # Linting
+bandit>=1.7.5         # Security linting
+pre-commit>=3.3.0     # Pre-commit hooks
+safety>=2.3.0         # Security vulnerability scanner

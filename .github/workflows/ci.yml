@@ -69,14 +69,14 @@ jobs:
     
     - name: Upload Allure results
       if: always()
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: allure-results-${{ matrix.python-version }}
         path: allure-results/
     
     - name: Upload test reports
       if: always()
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: test-reports-${{ matrix.python-version }}
         path: reports/
@@ -103,7 +103,7 @@ jobs:
       run: safety check --json --output safety-report.json || true
     
     - name: Upload security reports
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: security-reports
         path: |
@@ -132,7 +132,7 @@ jobs:
         python -m pytest tests/ -m performance -v --tb=short
     
     - name: Upload performance results
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: performance-results
         path: reports/

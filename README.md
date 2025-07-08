@@ -38,7 +38,6 @@ api_test_framework/
 │   ├── test_user_creation.py       # POST operations & user creation
 │   ├── test_error_scenarios.py     # 404, invalid requests, edge cases
 │   ├── test_api_validation.py      # Schema validation & headers
-│   └── test_users_api.py          # Legacy comprehensive test file
 ├── utils/
 │   └── api_utils.py
 ├── logs/
@@ -46,13 +45,15 @@ api_test_framework/
 ├── requirements.txt
 ├── pytest.ini                     # Test configuration & markers
 ├── test_runner.sh                 # Test execution script
+├── setup.sh                      # Automated setup script
 ├── README.md
 ├── troubleshooting_log.md
 └── conftest.py
 ```
 
 📸 *Screenshot of project structure:*  
-`![Project Structure](images/1_project_structure.png)`
+![Project_Structure](images/project_structure.jpg)
+
 
 ---
 

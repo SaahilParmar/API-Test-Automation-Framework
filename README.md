@@ -52,7 +52,7 @@ api_test_framework/
 ```
 
 📸 *Screenshot of project structure:*  
-![Project_Structure](images/project_structure.jpg)
+![Project_Structure]()
 
 
 ---

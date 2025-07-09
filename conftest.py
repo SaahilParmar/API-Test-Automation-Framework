@@ -1,23 +1,89 @@
 import pytest
 import allure
+import os
 from utils.api_utils import load_config
+
+
+def pytest_configure(config):
+    """
+    Initialize test configuration and environment.
+    """
+    config.addinivalue_line(
+        "markers",
+        "smoke: marks tests as smoke tests"
+    )
+    config.addinivalue_line(
+        "markers",
+        "user_retrieval: marks tests related to user retrieval operations"
+    )
+    config.addinivalue_line(
+        "markers",
+        "regression: marks tests as regression tests"
+    )
+    
+    # Create reports directory if it doesn't exist
+    import os
+    os.makedirs("reports", exist_ok=True)
+
+    # Create Allure environment properties file for reporting context
+    try:
+        config_data = load_config()
+        with open("reports/environment.properties", "w") as f:
+            f.write(f"BaseURL={config_data['environments'][config_data['env']]['base_url']}\n")
+            f.write("Framework=API Test Automation\n")
+            f.write("Language=Python\n")
+    except Exception:
+        # If config loading fails during pytest configure, skip environment file creation
+        pass
 
 
 @pytest.fixture(scope="session")
 def config():
     """
     Load and provide the entire config dictionary to tests.
+    Raises an error if configuration or schema files are missing.
     """
-    return load_config()
+    # Ensure config file exists
+    if not os.path.exists(os.path.join("config", "config.yaml")):
+        raise FileNotFoundError("config.yaml not found in config directory")
+
+    # Load config
+    config_data = load_config()
+
+    # Validate required config sections
+    required_sections = ["env", "environments", "timeout_seconds", "default_headers"]
+    for section in required_sections:
+        if section not in config_data:
+            raise KeyError(f"Missing required config section: {section}")
+
+    # Ensure schemas directory exists with required schemas
+    schemas_dir = os.path.join("schemas")
+    if not os.path.exists(schemas_dir):
+        raise FileNotFoundError("schemas directory not found")
+
+    required_schemas = ["user_list_schema.json"]
+    for schema in required_schemas:
+        if not os.path.exists(os.path.join(schemas_dir, schema)):
+            raise FileNotFoundError(f"Required schema file missing: {schema}")
+
+    return config_data
 
 
 @pytest.fixture(scope="session")
 def base_url(config):
     """
     Provide the base URL for the current environment.
+    Validates that the URL is properly configured.
     """
     env = config["env"]
-    return config["environments"][env]["base_url"]
+    if env not in config["environments"]:
+        raise KeyError(f"Environment '{env}' not found in config")
+    
+    url = config["environments"][env]["base_url"]
+    if not url:
+        raise ValueError(f"Base URL not configured for environment: {env}")
+    
+    return url
 
 
 @pytest.fixture(scope="function")
@@ -55,23 +121,4 @@ def attach_allure_logs(request):
             )
 
 
-def pytest_configure(config):
-    """
-    Pytest hook to customize test configuration.
 
-    - Sets up custom markers for smoke and regression tests.
-    - Generates Allure environment properties file for reporting.
-    """
-    # Register custom markers for test categorization
-    config.addinivalue_line("markers", "smoke: mark test as smoke test")
-    config.addinivalue_line("markers", "regression: mark test as regression test")
-
-    # Create reports directory if it doesn't exist
-    import os
-    os.makedirs("reports", exist_ok=True)
-
-    # Create Allure environment properties file for reporting context
-    with open("reports/environment.properties", "w") as f:
-        f.write(f"BaseURL={load_config()['environments'][load_config()['env']]['base_url']}\n")
-        f.write("Framework=API Test Automation\n")
-        f.write("Language=Python\n")

@@ -8,7 +8,8 @@ Covers listing users, retrieving single users, and related functionality.
 import pytest
 import requests
 import allure
-from jsonschema import validate
+import json
+from jsonschema import validate, ValidationError
 from utils.api_utils import load_schema, get_headers
 
 
@@ -24,23 +25,49 @@ def test_get_user_list(base_url):
     Validates response status and schema.
     """
     with allure.step("Send GET request to retrieve user list"):
-        url = f"{base_url}/users?page=2"
-        response = requests.get(url, headers=get_headers())
+        try:
+            url = f"{base_url}/users?page=2"
+            response = requests.get(url, headers=get_headers(), timeout=10)
+        except requests.exceptions.RequestException as e:
+            allure.attach(str(e), "Request Error", allure.attachment_type.TEXT)
+            raise
 
     with allure.step("Verify response status is 200"):
-        assert response.status_code == 200, f"Expected status 200, got {response.status_code}"
+        assert response.status_code == 200, (
+            f"Expected status 200, got {response.status_code}. "
+            f"Response: {response.text}"
+        )
 
     with allure.step("Validate response against schema"):
-        data = response.json()
+        try:
+            data = response.json()
+        except json.JSONDecodeError as e:
+            allure.attach(response.text, "Invalid JSON Response", allure.attachment_type.TEXT)
+            allure.attach(str(e), "JSON Parse Error", allure.attachment_type.TEXT)
+            raise
+
         try:
             schema = load_schema("user_list_schema.json")
             validate(instance=data, schema=schema)
-        except Exception as e:
+        except ValidationError as e:
+            allure.attach(
+                json.dumps(data, indent=2),
+                "Response Data",
+                allure.attachment_type.JSON
+            )
             allure.attach(str(e), "Schema Validation Error", allure.attachment_type.TEXT)
+            raise
+        except Exception as e:
+            allure.attach(str(e), "Unexpected Error", allure.attachment_type.TEXT)
             raise
 
     with allure.step("Attach response details to report"):
         allure.attach(response.text, "Response Body", allure.attachment_type.JSON)
+        allure.attach(
+            json.dumps(get_headers(), indent=2),
+            "Request Headers",
+            allure.attachment_type.JSON
+        )
 
 
 @pytest.mark.user_retrieval

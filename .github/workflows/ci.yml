@@ -24,7 +24,6 @@ permissions:
 
 env:
   PYTHON_VERSION_DEFAULT: "3.11"
-  PYTHONPATH: ${{ github.workspace }}
 
 jobs:
   test:
@@ -51,21 +50,30 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-pip-${{ matrix.python-version }}-
     
-    - name: Install dependencies
+    - name: Setup test environment
       run: |
         python -m pip install --upgrade pip
         python -m venv .venv
         source .venv/bin/activate
         pip install -r requirements.txt
         
-    - name: Verify test data and schemas
-      run: |
-        source .venv/bin/activate
+        # Ensure all required directories exist
         mkdir -p schemas
-        if [ ! -f "schemas/user_list_schema.json" ]; then
-          echo "Error: Missing schema files"
-          exit 1
-        fi
+        mkdir -p allure-results/smoke
+        mkdir -p allure-results/all
+        mkdir -p reports
+        
+        # Add workspace to PYTHONPATH inside venv
+        echo "${{ github.workspace }}" > .venv/lib/python${{ matrix.python-version }}/site-packages/workspace.pth
+        
+        # Verify required schema files
+        required_schemas=("user_list_schema.json" "single_user_schema.json" "create_user_schema.json")
+        for schema in "${required_schemas[@]}"; do
+          if [ ! -f "schemas/$schema" ]; then
+            echo "Error: Missing required schema file: $schema"
+            exit 1
+          fi
+        done
     
     - name: Lint with flake8
       run: |

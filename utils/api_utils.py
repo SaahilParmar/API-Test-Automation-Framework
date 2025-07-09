@@ -25,9 +25,23 @@ def load_config():
 
     Returns:
         dict: Configuration dictionary.
+    
+    Raises:
+        FileNotFoundError: If config.yaml doesn't exist.
+        yaml.YAMLError: If config.yaml is invalid.
     """
-    with open("config/config.yaml", "r") as f:
-        return yaml.safe_load(f)
+    config_path = os.path.join("config", "config.yaml")
+    if not os.path.exists(config_path):
+        raise FileNotFoundError(f"Configuration file not found at {config_path}")
+
+    with open(config_path, "r") as f:
+        try:
+            config = yaml.safe_load(f)
+            if not config:
+                raise ValueError("Empty configuration file")
+            return config
+        except yaml.YAMLError as e:
+            raise yaml.YAMLError(f"Error parsing config.yaml: {str(e)}")
 
 
 def load_schema(schema_filename):
@@ -39,25 +53,39 @@ def load_schema(schema_filename):
 
     Returns:
         dict: Loaded JSON schema.
+    
+    Raises:
+        FileNotFoundError: If schema file doesn't exist.
+        json.JSONDecodeError: If schema is invalid JSON.
     """
     schema_path = os.path.join("schemas", schema_filename)
+    if not os.path.exists(schema_path):
+        raise FileNotFoundError(f"Schema file not found: {schema_filename}")
+
     with open(schema_path, "r") as f:
-        return json.load(f)
+        try:
+            schema = json.load(f)
+            if not schema:
+                raise ValueError(f"Empty schema file: {schema_filename}")
+            return schema
+        except json.JSONDecodeError as e:
+            raise json.JSONDecodeError(f"Invalid JSON in schema {schema_filename}: {str(e)}", e.doc, e.pos)
 
 
 def get_headers():
     """
     Get default headers defined in config.yaml.
-
+    
     Returns:
-        dict: HTTP headers.
+        dict: Headers from configuration.
+    
+    Raises:
+        KeyError: If default_headers section is missing from config.
     """
     config = load_config()
-    headers = config.get("default_headers", {})
-    allowed = {"Content-Type", "Accept", "x-api-key"}
-    filtered_headers = {k: v for k, v in headers.items() if k in allowed}
-    print("DEBUG: get_headers() returns:", filtered_headers)  # Debug print
-    return filtered_headers
+    if 'default_headers' not in config:
+        raise KeyError("default_headers section missing from config.yaml")
+    return config['default_headers']
 
 
 def retry_request(func):

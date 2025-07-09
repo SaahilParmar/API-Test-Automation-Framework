@@ -20,7 +20,7 @@ def pytest_configure(config):
         "markers",
         "regression: marks tests as regression tests"
     )
-    
+
     # Create reports directory if it doesn't exist
     import os
     os.makedirs("reports", exist_ok=True)

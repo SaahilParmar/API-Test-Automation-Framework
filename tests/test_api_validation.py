@@ -9,6 +9,7 @@ import pytest
 import requests
 import allure
 import json
+import time
 from jsonschema import validate
 from utils.api_utils import load_schema, get_headers
 
@@ -161,24 +162,48 @@ def test_single_user_schema_validation(base_url):
 @allure.title("Validate Response Time Performance")
 @allure.severity(allure.severity_level.NORMAL)
 @pytest.mark.parametrize("endpoint", ["/users?page=1", "/users/1"])
-def test_response_time_validation(endpoint, base_url):
+def test_response_time_validation(endpoint, base_url, config):
     """
     Test that API responses are returned within acceptable time limits.
     Validates performance requirements.
+
+    Args:
+        endpoint (str): The API endpoint to test
+        base_url (str): Base URL from fixture
+        config (dict): Configuration fixture containing timeout settings
     """
     with allure.step(f"Send GET request to {endpoint}"):
-        url = f"{base_url}{endpoint}"
-        response = requests.get(url, headers=get_headers())
+        try:
+            url = f"{base_url}{endpoint}"
+            start_time = time.perf_counter()
+            response = requests.get(url, headers=get_headers(), timeout=10)
+            response_time = time.perf_counter() - start_time
+        except requests.exceptions.RequestException as e:
+            allure.attach(str(e), "Request Error", allure.attachment_type.TEXT)
+            raise
 
     with allure.step("Verify response status is 200"):
-        assert response.status_code == 200
+        assert response.status_code == 200, (
+            f"Expected status 200, got {response.status_code}. "
+            f"Response: {response.text}"
+        )
 
     with allure.step("Validate response time is acceptable"):
-        response_time = response.elapsed.total_seconds()
-        # Expecting response within 5 seconds (configurable)
         max_response_time = config.get("timeout_seconds", 5)
-        assert response_time < max_response_time, \
-            f"Response time {response_time}s exceeded limit of {max_response_time}s"
+        assert response_time < max_response_time, (
+            f"Response time {response_time:.3f}s exceeded limit of {max_response_time}s. "
+            f"Endpoint: {endpoint}"
+        )
 
     with allure.step("Attach performance metrics"):
-        allure.attach(f"Response Time: {response_time:.3f} seconds", "Performance Metrics", allure.attachment_type.TEXT)
+        metrics = {
+            "endpoint": endpoint,
+            "response_time": f"{response_time:.3f}s",
+            "timeout_limit": f"{max_response_time}s",
+            "status_code": response.status_code
+        }
+        allure.attach(
+            json.dumps(metrics, indent=2),
+            "Performance Metrics",
+            allure.attachment_type.JSON
+        )

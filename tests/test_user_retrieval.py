@@ -30,15 +30,15 @@ def test_get_user_list():
     with allure.step("Send GET request to retrieve user list"):
         url = f"{BASE_URL}/users?page=2"
         response = requests.get(url, headers=get_headers())
-        
+
     with allure.step("Verify response status is 200"):
         assert response.status_code == 200
-        
+
     with allure.step("Validate response against schema"):
         data = response.json()
         schema = load_schema("user_list_schema.json")
         validate(instance=data, schema=schema)
-        
+
     with allure.step("Attach response details to report"):
         allure.attach(response.text, "Response Body", allure.attachment_type.JSON)
 
@@ -58,18 +58,18 @@ def test_get_single_user(user_id):
     with allure.step(f"Send GET request to retrieve user {user_id}"):
         url = f"{BASE_URL}/users/{user_id}"
         response = requests.get(url, headers=get_headers())
-        
+
     with allure.step("Verify response status is 200"):
         assert response.status_code == 200
-        
+
     with allure.step("Validate response against schema"):
         data = response.json()
         schema = load_schema("single_user_schema.json")
         validate(instance=data, schema=schema)
-        
+
     with allure.step("Verify user ID matches requested ID"):
         assert data["data"]["id"] == user_id
-        
+
     with allure.step("Attach response details to report"):
         allure.attach(response.text, "Response Body", allure.attachment_type.JSON)
 
@@ -89,10 +89,10 @@ def test_get_user_list_pagination(page):
     with allure.step(f"Send GET request to retrieve page {page}"):
         url = f"{BASE_URL}/users?page={page}"
         response = requests.get(url, headers=get_headers())
-        
+
     with allure.step("Verify response status is 200"):
         assert response.status_code == 200
-        
+
     with allure.step("Validate response contains pagination info"):
         data = response.json()
         assert "page" in data
@@ -100,6 +100,6 @@ def test_get_user_list_pagination(page):
         assert "total" in data
         assert "total_pages" in data
         assert data["page"] == page
-        
+
     with allure.step("Attach response details to report"):
         allure.attach(response.text, "Response Body", allure.attachment_type.JSON)

@@ -1,7 +1,7 @@
 import pytest
 import allure
-import requests
-from utils.api_utils import load_config, log_request_response
+from utils.api_utils import load_config
+
 
 @pytest.fixture(scope="session")
 def config():
@@ -10,6 +10,7 @@ def config():
     """
     return load_config()
 
+
 @pytest.fixture(scope="session")
 def base_url(config):
     """
@@ -17,6 +18,7 @@ def base_url(config):
     """
     env = config["env"]
     return config["environments"][env]["base_url"]
+
 
 @pytest.fixture(scope="function")
 def driver():
@@ -28,6 +30,7 @@ def driver():
     # For API testing, no browser driver is required.
     # We keep this fixture placeholder in case future tests integrate with UI.
     yield None
+
 
 @pytest.fixture(autouse=True)
 def attach_allure_logs(request):
@@ -51,6 +54,7 @@ def attach_allure_logs(request):
                 attachment_type=allure.attachment_type.TEXT
             )
 
+
 def pytest_configure(config):
     """
     Pytest hook to customize test configuration.
@@ -65,7 +69,7 @@ def pytest_configure(config):
     # Create reports directory if it doesn't exist
     import os
     os.makedirs("reports", exist_ok=True)
-    
+
     # Create Allure environment properties file for reporting context
     with open("reports/environment.properties", "w") as f:
         f.write(f"BaseURL={load_config()['environments'][load_config()['env']]['base_url']}\n")

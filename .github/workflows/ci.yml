@@ -58,7 +58,7 @@ jobs:
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v5
       with:
-        file: ./coverage.xml
+        files: ./coverage.xml
         flags: unittests
         name: codecov-umbrella
     
@@ -73,9 +73,9 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt-get install -y default-jre
-        curl -o allure-2.13.8.tgz -Ls https://github.com/allure-framework/allure2/releases/download/2.13.8/allure-2.13.8.tgz
-        sudo tar -zxvf allure-2.13.8.tgz -C /opt/
-        sudo ln -s /opt/allure-2.13.8/bin/allure /usr/bin/allure
+        curl -o allure-2.27.0.tgz -Ls https://github.com/allure-framework/allure2/releases/download/2.27.0/allure-2.27.0.tgz
+        sudo tar -zxvf allure-2.27.0.tgz -C /opt/
+        sudo ln -s /opt/allure-2.27.0/bin/allure /usr/bin/allure
         allure --version
         
     - name: Generate Allure HTML report
@@ -123,7 +123,7 @@ jobs:
       run: bandit -r . -f json -o bandit-report.json || true
     
     - name: Run Safety check
-      run: safety check --json --output safety-report.json || true
+      run: safety check --output json --save-json safety-report.json || true
     
     - name: Upload security reports
       uses: actions/upload-artifact@v4
@@ -183,9 +183,9 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt-get install -y default-jre
-        curl -o allure-2.13.8.tgz -Ls https://github.com/allure-framework/allure2/releases/download/2.13.8/allure-2.13.8.tgz
-        sudo tar -zxvf allure-2.13.8.tgz -C /opt/
-        sudo ln -s /opt/allure-2.13.8/bin/allure /usr/bin/allure
+        curl -o allure-2.27.0.tgz -Ls https://github.com/allure-framework/allure2/releases/download/2.27.0/allure-2.27.0.tgz
+        sudo tar -zxvf allure-2.27.0.tgz -C /opt/
+        sudo ln -s /opt/allure-2.27.0/bin/allure /usr/bin/allure
         allure --version
 
     - name: Generate test documentation

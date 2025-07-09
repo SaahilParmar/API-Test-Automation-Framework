@@ -32,21 +32,21 @@ def test_create_user(payload):
     with allure.step(f"Send POST request to create user: {payload['name']}"):
         url = f"{BASE_URL}/users"
         response = requests.post(url, json=payload, headers=get_headers())
-        
+
     with allure.step("Verify response status is 201"):
         assert response.status_code == 201
-        
+
     with allure.step("Validate response against schema"):
         response_data = response.json()
         schema = load_schema("create_user_schema.json")
         validate(instance=response_data, schema=schema)
-        
+
     with allure.step("Verify created user data matches input"):
         assert response_data["name"] == payload["name"]
         assert response_data["job"] == payload["job"]
         assert "id" in response_data
         assert "createdAt" in response_data
-        
+
     with allure.step("Attach request and response details"):
         allure.attach(json.dumps(payload, indent=2), "Request Payload", allure.attachment_type.JSON)
         allure.attach(response.text, "Response Body", allure.attachment_type.JSON)
@@ -65,19 +65,19 @@ def test_create_user_with_large_payload():
     """
     with allure.step("Load large payload from test data"):
         payload = json.load(open("data/large_payload.json"))
-        
+
     with allure.step("Send POST request with large payload"):
         url = f"{BASE_URL}/users"
         response = requests.post(url, json=payload, headers=get_headers())
-        
+
     with allure.step("Verify response status is 201"):
         assert response.status_code == 201
-        
+
     with allure.step("Validate response contains required fields"):
         data = response.json()
         assert "id" in data
         assert "createdAt" in data
-        
+
     with allure.step("Attach request and response details"):
         allure.attach(json.dumps(payload, indent=2), "Large Request Payload", allure.attachment_type.JSON)
         allure.attach(response.text, "Response Body", allure.attachment_type.JSON)
@@ -99,21 +99,21 @@ def test_create_user_minimal_data():
             "name": "TestUser",
             "job": "Tester"
         }
-        
+
     with allure.step("Send POST request with minimal data"):
         url = f"{BASE_URL}/users"
         response = requests.post(url, json=payload, headers=get_headers())
-        
+
     with allure.step("Verify response status is 201"):
         assert response.status_code == 201
-        
+
     with allure.step("Validate response contains required fields"):
         data = response.json()
         assert "id" in data
         assert "createdAt" in data
         assert data["name"] == payload["name"]
         assert data["job"] == payload["job"]
-        
+
     with allure.step("Attach request and response details"):
         allure.attach(json.dumps(payload, indent=2), "Minimal Request Payload", allure.attachment_type.JSON)
         allure.attach(response.text, "Response Body", allure.attachment_type.JSON)

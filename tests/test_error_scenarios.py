@@ -29,15 +29,15 @@ def test_get_user_not_found():
     with allure.step("Send GET request for non-existent user"):
         url = f"{BASE_URL}/users/9999"
         response = requests.get(url, headers=get_headers())
-        
+
     with allure.step("Verify response status is 404"):
         assert response.status_code == 404
-        
+
     with allure.step("Verify response body is empty or contains error info"):
         # ReqRes API returns empty object for 404
         data = response.json()
         assert data == {}
-        
+
     with allure.step("Attach response details to report"):
         allure.attach(response.text, "404 Response Body", allure.attachment_type.JSON)
 
@@ -57,11 +57,11 @@ def test_get_user_invalid_id(invalid_id):
     with allure.step(f"Send GET request with invalid ID: {invalid_id}"):
         url = f"{BASE_URL}/users/{invalid_id}"
         response = requests.get(url, headers=get_headers())
-        
+
     with allure.step("Verify response indicates error or not found"):
         # API might return 404 or other error codes for invalid IDs
         assert response.status_code in [400, 404, 422]
-        
+
     with allure.step("Attach response details to report"):
         allure.attach(response.text, f"Invalid ID Response: {invalid_id}", allure.attachment_type.JSON)
 
@@ -80,7 +80,7 @@ def test_create_user_empty_payload():
     with allure.step("Send POST request with empty payload"):
         url = f"{BASE_URL}/users"
         response = requests.post(url, json={}, headers=get_headers())
-        
+
     with allure.step("Verify response (API may accept empty payload)"):
         # ReqRes API might accept empty payloads, so we check what actually happens
         if response.status_code == 201:
@@ -90,7 +90,7 @@ def test_create_user_empty_payload():
         else:
             # If API rejects empty payload, status should indicate error
             assert response.status_code in [400, 422]
-            
+
     with allure.step("Attach response details to report"):
         allure.attach(response.text, "Empty Payload Response", allure.attachment_type.JSON)
 
@@ -111,11 +111,11 @@ def test_create_user_invalid_json():
         headers = get_headers()
         # Send malformed JSON as string
         response = requests.post(url, data='{"name": "test", "job":}', headers=headers)
-        
+
     with allure.step("Verify response indicates bad request"):
         # Should return 400 Bad Request for malformed JSON
         assert response.status_code == 400
-        
+
     with allure.step("Attach response details to report"):
         allure.attach(response.text, "Invalid JSON Response", allure.attachment_type.JSON)
 
@@ -134,22 +134,22 @@ def test_invalid_endpoint():
     with allure.step("Send GET request to invalid endpoint"):
         url = f"{BASE_URL}/invalid-endpoint"
         response = requests.get(url, headers=get_headers())
-        
+
     with allure.step("Document API behavior for invalid endpoints"):
         # ReqRes API might return 200 with some default content for invalid endpoints
         # This is not uncommon for some APIs that have catch-all routes
         allure.attach(f"Status Code: {response.status_code}", "Response Status", allure.attachment_type.TEXT)
         allure.attach(response.text[:500], "Response Body (first 500 chars)", allure.attachment_type.TEXT)
-        
+
         # The test documents behavior rather than enforcing a specific status
         # This is valuable for API contract understanding
         if response.status_code == 200:
-            print(f"INFO: API returns 200 for invalid endpoint (common for some APIs)")
+            print("INFO: API returns 200 for invalid endpoint (common for some APIs)")
         elif response.status_code == 404:
-            print(f"INFO: API properly returns 404 for invalid endpoint")
+            print("INFO: API properly returns 404 for invalid endpoint")
         else:
             print(f"INFO: API returns {response.status_code} for invalid endpoint")
-            
+
         # Always pass - this test is for documentation/exploration
         assert True, "Test passes - documents API behavior for invalid endpoints"
 
@@ -169,15 +169,15 @@ def test_malformed_url():
         # Use a very high user ID that definitely doesn't exist
         url = f"{BASE_URL}/users/999999"
         response = requests.get(url, headers=get_headers())
-        
+
     with allure.step("Verify response indicates not found"):
         # ReqRes API returns 404 for non-existent user IDs
         assert response.status_code == 404
-        
+
     with allure.step("Verify response body indicates not found"):
         # Should return empty object for 404
         data = response.json()
         assert data == {}
-        
+
     with allure.step("Attach response details to report"):
         allure.attach(response.text, "Non-existent User Response", allure.attachment_type.JSON)

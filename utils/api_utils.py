@@ -18,6 +18,7 @@ import allure
 from functools import wraps
 from jsonschema import validate
 
+
 def load_config():
     """
     Load configuration data from config.yaml file.
@@ -27,6 +28,7 @@ def load_config():
     """
     with open("config/config.yaml", "r") as f:
         return yaml.safe_load(f)
+
 
 def load_schema(schema_filename):
     """
@@ -42,6 +44,7 @@ def load_schema(schema_filename):
     with open(schema_path, "r") as f:
         return json.load(f)
 
+
 def get_headers():
     """
     Get default headers defined in config.yaml.
@@ -55,6 +58,7 @@ def get_headers():
     filtered_headers = {k: v for k, v in headers.items() if k in allowed}
     print("DEBUG: get_headers() returns:", filtered_headers)  # Debug print
     return filtered_headers
+
 
 def retry_request(func):
     """
@@ -88,6 +92,7 @@ def retry_request(func):
 
     return wrapper
 
+
 def log_request_response(response):
     """
     Attach HTTP request and response details to Allure reports.
@@ -115,6 +120,7 @@ def log_request_response(response):
         name="Response Details",
         attachment_type=allure.attachment_type.TEXT
     )
+
 
 def validate_response_schema(response, schema_filename):
     """

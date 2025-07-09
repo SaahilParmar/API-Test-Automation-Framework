@@ -16,11 +16,12 @@ concurrency:
   cancel-in-progress: true
 
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
   actions: read
   checks: write
+  deployments: write
 
 env:
   PYTHON_VERSION_DEFAULT: "3.11"
@@ -251,6 +252,9 @@ jobs:
         publish_dir: ./allure-report
         destination_dir: test-reports
         force_orphan: true
+        user_name: 'github-actions[bot]'
+        user_email: 'github-actions[bot]@users.noreply.github.com'
+        commit_message: 'docs: update test reports'
 
   notify:
     runs-on: ubuntu-latest

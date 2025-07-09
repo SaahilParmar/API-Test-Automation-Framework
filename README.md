@@ -1,4 +1,4 @@
-`# 🧪 API Test Automation Framework
+# 🧪 API Test Automation Framework
 
 A professional API testing framework built using **Python**, **Pytest**, and **Allure** for reporting.  
 This framework is designed to test RESTful APIs using data-driven and contract-based testing approaches.  
@@ -17,6 +17,7 @@ Target API: [ReqRes Public API](https://reqres.in/)
 - Allure report integration
 - Pytest markers and logging
 - Compatible with CI/CD (via GitHub Actions)
+- Isolated virtual environment in `.venv`
 
 ---
 
@@ -91,130 +92,51 @@ pip install -r requirements.txt
 
 ---
 
-## 🧪 Running Tests
+## 🚀 Quick Start
 
-### Quick Start
-```bash
-# Run all tests
-./test_runner.sh all
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/your-username/API-Test-Automation-Framework.git
+   cd API-Test-Automation-Framework
+   ```
 
-# Run smoke tests (quick validation)
-./test_runner.sh smoke
+2. Run the setup script (creates `.venv` and installs dependencies):
+   ```bash
+   ./setup.sh
+   ```
 
-# Run specific test categories
-./test_runner.sh regression
-./test_runner.sh negative
-```
+3. Activate the virtual environment:
+   ```bash
+   source .venv/bin/activate  # On Unix/macOS
+   # or
+   .venv\Scripts\activate     # On Windows
+   ```
 
-### Test Categories Available
+4. Run the tests:
+   ```bash
+   pytest tests/ -v          # Run all tests
+   pytest tests/ -m smoke    # Run smoke tests only
+   ```
 
-| Category | Description | Command |
-|----------|-------------|---------|
-| 🚀 **smoke** | Core functionality validation | `./test_runner.sh smoke` |
-| 🔄 **regression** | Comprehensive testing | `./test_runner.sh regression` |
-| ❌ **negative** | Error scenarios & edge cases | `./test_runner.sh negative` |
-| 🔍 **boundary** | Boundary testing (large payloads) | `./test_runner.sh boundary` |
-| 📋 **contract** | API schema validation | `./test_runner.sh contract` |
-| ⚡ **performance** | Response time validation | `./test_runner.sh performance` |
-| � **retrieval** | User GET operations | `./test_runner.sh retrieval` |
-| ➕ **creation** | User POST operations | `./test_runner.sh creation` |
+⚠️ Important: Always use the `.venv` virtual environment. This is the standard environment used by our CI/CD workflow and ensures consistent test execution across all environments.
 
-### Direct pytest Commands
-```bash
-# Run specific test file
-pytest tests/test_user_retrieval.py -v
+## 🛠️ Development Setup
 
-# Run tests with specific markers
-pytest -m "smoke" -v
-pytest -m "user_creation and not boundary" -v
+1. Ensure you're using the correct virtual environment:
+   ```bash
+   # You should see (.venv) in your prompt
+   # If not, activate it:
+   source .venv/bin/activate
+   ```
 
-# Run all tests with detailed output
-pytest -v --tb=short
-```
+2. Verify your setup:
+   ```bash
+   python --version  # Should match version in .github/workflows/ci.yml
+   pip list         # Should match requirements.txt
+   ```
 
-
----
-
----
-
-## 📊 Generate Allure Report
-
-```bash
-# Generate and view HTML report
-allure generate reports/allure-results -o reports/html --clean
-allure open reports/html
-
-# Or serve live report
-allure serve reports/allure-results
-```
-
----
-
-## 🚦 Test Organization
-
-### Test Modules
-
-| Module | Purpose | Key Features |
-|--------|---------|--------------|
-| `test_user_retrieval.py` | GET operations | User listing, single user, pagination |
-| `test_user_creation.py` | POST operations | Data-driven creation, boundary testing |
-| `test_error_scenarios.py` | Error handling | 404s, invalid data, malformed requests |
-| `test_api_validation.py` | Contract testing | Schema validation, headers, performance |
-
-### Pytest Markers
-
-The framework uses comprehensive pytest markers for test categorization:
-
-```bash
-# Execution-based markers
-@pytest.mark.smoke          # Quick validation tests
-@pytest.mark.regression      # Comprehensive test suite
-@pytest.mark.negative        # Error scenario tests
-@pytest.mark.boundary        # Edge case and boundary tests
-
-# Feature-based markers  
-@pytest.mark.user_retrieval  # GET user operations
-@pytest.mark.user_creation   # POST user operations
-@pytest.mark.error_scenarios # Error handling tests
-@pytest.mark.api_validation  # Contract and validation tests
-
-# Quality markers
-@pytest.mark.contract        # API schema validation
-@pytest.mark.performance     # Response time validation
-```
-
-### Running Specific Test Categories
-```bash
-# Run only smoke tests
-pytest -m smoke
-
-# Run user creation tests
-pytest -m user_creation
-
-# Combine markers
-pytest -m "smoke and user_retrieval"
-
-# Exclude certain tests
-pytest -m "not boundary"
-```
-
-
----
-
-🛠 Troubleshooting
-
-See troubleshooting_log.md for common errors and fixes (e.g., Chrome driver, Allure, virtualenv).
-
-
----
-
-🤝 Contributing
-
-Pull requests are welcome. Please open an issue first to discuss changes.
-
-
----
-
-📄 License
-
-This project is licensed under the MIT License.
+3. Install new dependencies:
+   ```bash
+   pip install new-package
+   pip freeze > requirements.txt  # Update requirements
+   ```

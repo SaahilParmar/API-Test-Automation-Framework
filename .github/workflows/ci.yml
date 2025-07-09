@@ -178,7 +178,8 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
         pip install allure-pytest
-         - name: Install Allure CLI
+        
+    - name: Install Allure CLI
       run: |
         sudo apt-get update
         sudo apt-get install -y default-jre

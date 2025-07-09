@@ -8,11 +8,8 @@ Covers 404 errors, invalid requests, and edge cases.
 import pytest
 import requests
 import allure
-from utils.api_utils import load_config, get_headers
-
-# Load base configuration from config.yaml
-config = load_config()
-BASE_URL = config["environments"][config["env"]]["base_url"]
+import json
+from utils.api_utils import get_headers
 
 
 @pytest.mark.error_scenarios
@@ -21,25 +18,37 @@ BASE_URL = config["environments"][config["env"]]["base_url"]
 @allure.feature("User Retrieval Errors")
 @allure.title("GET Non-Existent User")
 @allure.severity(allure.severity_level.MINOR)
-def test_get_user_not_found():
+def test_get_user_not_found(base_url):
     """
     Test retrieving a non-existent user.
     Expects a 404 Not Found response.
     """
     with allure.step("Send GET request for non-existent user"):
-        url = f"{BASE_URL}/users/9999"
-        response = requests.get(url, headers=get_headers())
+        url = f"{base_url}/users/9999"
+        response = requests.get(url, headers=get_headers(), timeout=10)
 
     with allure.step("Verify response status is 404"):
-        assert response.status_code == 404
+        assert response.status_code == 404, (
+            f"Expected status 404, got {response.status_code}. "
+            f"Response: {response.text}"
+        )
 
     with allure.step("Verify response body is empty or contains error info"):
-        # ReqRes API returns empty object for 404
-        data = response.json()
-        assert data == {}
+        try:
+            data = response.json()
+            assert data == {}, f"Expected empty object, got: {json.dumps(data, indent=2)}"
+        except json.JSONDecodeError as e:
+            allure.attach(response.text, "Invalid JSON Response", allure.attachment_type.TEXT)
+            allure.attach(str(e), "JSON Parse Error", allure.attachment_type.TEXT)
+            raise
 
     with allure.step("Attach response details to report"):
         allure.attach(response.text, "404 Response Body", allure.attachment_type.JSON)
+        allure.attach(
+            json.dumps(get_headers(), indent=2),
+            "Request Headers",
+            allure.attachment_type.JSON
+        )
 
 
 @pytest.mark.error_scenarios
@@ -49,13 +58,13 @@ def test_get_user_not_found():
 @allure.title("GET User with Invalid ID Format")
 @allure.severity(allure.severity_level.MINOR)
 @pytest.mark.parametrize("invalid_id", ["abc", "!@#", "0", "-1"])
-def test_get_user_invalid_id(invalid_id):
+def test_get_user_invalid_id(invalid_id, base_url):
     """
     Test retrieving a user with invalid ID formats.
     Validates error handling for malformed requests.
     """
     with allure.step(f"Send GET request with invalid ID: {invalid_id}"):
-        url = f"{BASE_URL}/users/{invalid_id}"
+        url = f"{base_url}/users/{invalid_id}"
         response = requests.get(url, headers=get_headers())
 
     with allure.step("Verify response indicates error or not found"):
@@ -72,13 +81,13 @@ def test_get_user_invalid_id(invalid_id):
 @allure.feature("User Creation Errors")
 @allure.title("POST User with Empty Payload")
 @allure.severity(allure.severity_level.NORMAL)
-def test_create_user_empty_payload():
+def test_create_user_empty_payload(base_url):
     """
     Test creating a user with empty payload.
     Validates API behavior with missing data.
     """
     with allure.step("Send POST request with empty payload"):
-        url = f"{BASE_URL}/users"
+        url = f"{base_url}/users"
         response = requests.post(url, json={}, headers=get_headers())
 
     with allure.step("Verify response (API may accept empty payload)"):
@@ -101,13 +110,13 @@ def test_create_user_empty_payload():
 @allure.feature("User Creation Errors")
 @allure.title("POST User with Invalid JSON")
 @allure.severity(allure.severity_level.NORMAL)
-def test_create_user_invalid_json():
+def test_create_user_invalid_json(base_url):
     """
     Test creating a user with malformed JSON.
     Validates API error handling for invalid request format.
     """
     with allure.step("Send POST request with invalid JSON"):
-        url = f"{BASE_URL}/users"
+        url = f"{base_url}/users"
         headers = get_headers()
         # Send malformed JSON as string
         response = requests.post(url, data='{"name": "test", "job":}', headers=headers)
@@ -126,13 +135,13 @@ def test_create_user_invalid_json():
 @allure.feature("Invalid Endpoints")
 @allure.title("GET Invalid Endpoint")
 @allure.severity(allure.severity_level.MINOR)
-def test_invalid_endpoint():
+def test_invalid_endpoint(base_url):
     """
     Test accessing an invalid/non-existent endpoint.
     ReqRes API may handle invalid endpoints differently than expected.
     """
     with allure.step("Send GET request to invalid endpoint"):
-        url = f"{BASE_URL}/invalid-endpoint"
+        url = f"{base_url}/invalid-endpoint"
         response = requests.get(url, headers=get_headers())
 
     with allure.step("Document API behavior for invalid endpoints"):
@@ -160,14 +169,14 @@ def test_invalid_endpoint():
 @allure.feature("Invalid Endpoints")
 @allure.title("GET Non-existent User ID")
 @allure.severity(allure.severity_level.MINOR)
-def test_malformed_url():
+def test_malformed_url(base_url):
     """
     Test accessing a user with an ID that definitely doesn't exist.
     ReqRes API returns 404 for non-existent user IDs.
     """
     with allure.step("Send GET request to non-existent user ID"):
         # Use a very high user ID that definitely doesn't exist
-        url = f"{BASE_URL}/users/999999"
+        url = f"{base_url}/users/999999"
         response = requests.get(url, headers=get_headers())
 
     with allure.step("Verify response indicates not found"):

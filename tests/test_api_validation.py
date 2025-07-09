@@ -8,12 +8,9 @@ Covers schema validation, header validation, and response format testing.
 import pytest
 import requests
 import allure
+import json
 from jsonschema import validate
-from utils.api_utils import load_config, load_schema, get_headers
-
-# Load base configuration from config.yaml
-config = load_config()
-BASE_URL = config["environments"][config["env"]]["base_url"]
+from utils.api_utils import load_schema, get_headers
 
 
 @pytest.mark.api_validation
@@ -22,37 +19,51 @@ BASE_URL = config["environments"][config["env"]]["base_url"]
 @allure.feature("Response Headers")
 @allure.title("Validate Standard Headers")
 @allure.severity(allure.severity_level.TRIVIAL)
-def test_headers_validation():
+def test_headers_validation(base_url):
     """
     Test that standard headers are present and correct in the API response.
     Validates content type, encoding, and other standard HTTP headers.
     """
     with allure.step("Send GET request to users endpoint"):
-        url = f"{BASE_URL}/users?page=1"
-        response = requests.get(url, headers=get_headers())
+        try:
+            url = f"{base_url}/users?page=1"
+            response = requests.get(url, headers=get_headers(), timeout=10)
+        except requests.exceptions.RequestException as e:
+            allure.attach(str(e), "Request Error", allure.attachment_type.TEXT)
+            raise
 
     with allure.step("Verify response status is 200"):
-        assert response.status_code == 200
+        assert response.status_code == 200, (
+            f"Expected status 200, got {response.status_code}. "
+            f"Response: {response.text}"
+        )
 
     with allure.step("Validate Content-Type header"):
-        assert response.headers["Content-Type"].startswith("application/json")
+        content_type = response.headers.get("Content-Type", "")
+        assert content_type.startswith("application/json"), (
+            f"Expected application/json Content-Type, got: {content_type}"
+        )
 
     with allure.step("Validate response headers are present"):
+        headers = dict(response.headers)
+        allure.attach(
+            json.dumps(headers, indent=2),
+            "Response Headers",
+            allure.attachment_type.JSON
+        )
+
         # Check for Content-Type (always present)
-        assert "Content-Type" in response.headers
+        assert "Content-Type" in headers, "Missing Content-Type header"
 
         # Check for either Content-Length or Transfer-Encoding (both are valid)
-        has_content_length = "Content-Length" in response.headers
-        has_transfer_encoding = "Transfer-Encoding" in response.headers
-        assert has_content_length or has_transfer_encoding, \
-            "Either Content-Length or Transfer-Encoding should be present"
+        has_content_length = "Content-Length" in headers
+        has_transfer_encoding = "Transfer-Encoding" in headers
+        assert has_content_length or has_transfer_encoding, (
+            "Missing both Content-Length and Transfer-Encoding headers"
+        )
 
         # Validate Date header is present
-        assert "Date" in response.headers
-
-    with allure.step("Attach headers to report"):
-        headers_info = dict(response.headers)
-        allure.attach(str(headers_info), "Response Headers", allure.attachment_type.TEXT)
+        assert "Date" in headers, "Missing Date header"
 
 
 @pytest.mark.api_validation
@@ -61,13 +72,13 @@ def test_headers_validation():
 @allure.feature("Schema Validation")
 @allure.title("Validate User List Schema Compliance")
 @allure.severity(allure.severity_level.CRITICAL)
-def test_user_list_schema_validation():
+def test_user_list_schema_validation(base_url):
     """
     Comprehensive schema validation for user list endpoint.
     Ensures all required fields and data types are correct.
     """
     with allure.step("Send GET request to user list endpoint"):
-        url = f"{BASE_URL}/users?page=1"
+        url = f"{base_url}/users?page=1"
         response = requests.get(url, headers=get_headers())
 
     with allure.step("Verify response status is 200"):
@@ -107,13 +118,13 @@ def test_user_list_schema_validation():
 @allure.feature("Schema Validation")
 @allure.title("Validate Single User Schema Compliance")
 @allure.severity(allure.severity_level.CRITICAL)
-def test_single_user_schema_validation():
+def test_single_user_schema_validation(base_url):
     """
     Comprehensive schema validation for single user endpoint.
     Ensures response structure matches expected contract.
     """
     with allure.step("Send GET request to single user endpoint"):
-        url = f"{BASE_URL}/users/2"
+        url = f"{base_url}/users/2"
         response = requests.get(url, headers=get_headers())
 
     with allure.step("Verify response status is 200"):
@@ -150,13 +161,13 @@ def test_single_user_schema_validation():
 @allure.title("Validate Response Time Performance")
 @allure.severity(allure.severity_level.NORMAL)
 @pytest.mark.parametrize("endpoint", ["/users?page=1", "/users/1"])
-def test_response_time_validation(endpoint):
+def test_response_time_validation(endpoint, base_url):
     """
     Test that API responses are returned within acceptable time limits.
     Validates performance requirements.
     """
     with allure.step(f"Send GET request to {endpoint}"):
-        url = f"{BASE_URL}{endpoint}"
+        url = f"{base_url}{endpoint}"
         response = requests.get(url, headers=get_headers())
 
     with allure.step("Verify response status is 200"):

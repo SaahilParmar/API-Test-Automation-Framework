@@ -80,10 +80,16 @@ jobs:
       run: |
         source .venv/bin/activate
         pip install flake8
-        # Stop the build if there are Python syntax errors or undefined names
-        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-        # Exit-zero treats all errors as warnings
-        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+        
+        # First check for critical errors (syntax errors and undefined names)
+        echo "Checking for critical errors..."
+        flake8 utils/ tests/ conftest.py setup.sh validate_workflow.py \
+          --count --select=E9,F63,F7,F82 --show-source --statistics
+        
+        # Then run full lint check on project files
+        echo "Running full lint check..."
+        flake8 utils/ tests/ conftest.py setup.sh validate_workflow.py \
+          --count --statistics
     
     - name: Run smoke tests
       run: |

@@ -1,0 +1,27 @@
+[flake8]
+# Exclude patterns for directories and files
+exclude = 
+    .venv/*,
+    .git/*,
+    __pycache__/*,
+    build/*,
+    dist/*,
+    *.pyc,
+    *.egg-info,
+    .eggs/*,
+    .tox/*,
+    .pytest_cache/*,
+    venv/*,
+    env/*,
+    */site-packages/*,
+    allure-report/*,
+    allure-results/*,
+    htmlcov/*
+
+# Maximum line length
+max-line-length = 120
+
+# Ignore specific errors/warnings:
+# E226: Missing whitespace around arithmetic operator
+# W503: Line break occurred before binary operator (conflicts with W504)
+ignore = E226, W503

@@ -25,7 +25,7 @@ def load_config():
 
     Returns:
         dict: Configuration dictionary.
-    
+
     Raises:
         FileNotFoundError: If config.yaml doesn't exist.
         yaml.YAMLError: If config.yaml is invalid.
@@ -53,7 +53,7 @@ def load_schema(schema_filename):
 
     Returns:
         dict: Loaded JSON schema.
-    
+
     Raises:
         FileNotFoundError: If schema file doesn't exist.
         json.JSONDecodeError: If schema is invalid JSON.
@@ -75,10 +75,10 @@ def load_schema(schema_filename):
 def get_headers():
     """
     Get default headers defined in config.yaml.
-    
+
     Returns:
         dict: Headers from configuration.
-    
+
     Raises:
         KeyError: If default_headers section is missing from config.
     """

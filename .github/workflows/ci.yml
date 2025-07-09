@@ -10,6 +10,16 @@ on:
     - cron: '0 6 * * *'
   workflow_dispatch:
 
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+  actions: read
+  checks: write
+
+env:
+  PYTHON_VERSION_DEFAULT: "3.11"
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -56,32 +66,33 @@ jobs:
         python -m pytest tests/ -v --cov=utils --cov=tests --cov-report=xml --cov-report=html
     
     - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v5
+      uses: codecov/codecov-action@v4
       with:
         files: ./coverage.xml
         flags: unittests
         name: codecov-umbrella
+        token: ${{ secrets.CODECOV_TOKEN }}
+        fail_ci_if_error: false
     
     - name: Generate Allure results
       if: always()
       run: |
-        pip install allure-pytest
-        python -m pytest tests/ --alluredir=allure-results
+        python -m pytest tests/ --alluredir=allure-results --tb=short || true
       
     - name: Install Allure CLI
       if: always()
       run: |
-        sudo apt-get update
-        sudo apt-get install -y default-jre
+        sudo apt-get update -qq
+        sudo apt-get install -y default-jre-headless
         curl -o allure-2.27.0.tgz -Ls https://github.com/allure-framework/allure2/releases/download/2.27.0/allure-2.27.0.tgz
         sudo tar -zxvf allure-2.27.0.tgz -C /opt/
-        sudo ln -s /opt/allure-2.27.0/bin/allure /usr/bin/allure
+        sudo ln -sf /opt/allure-2.27.0/bin/allure /usr/bin/allure
         allure --version
         
     - name: Generate Allure HTML report
       if: always()
       run: |
-        allure generate allure-results --clean -o allure-report
+        allure generate allure-results --clean -o allure-report || echo "Allure report generation failed"
     
     - name: Upload Allure results
       if: always()
@@ -89,6 +100,8 @@ jobs:
       with:
         name: allure-results-${{ matrix.python-version }}
         path: allure-results/
+        retention-days: 30
+        if-no-files-found: warn
         
     - name: Upload Allure HTML report
       if: always()
@@ -96,6 +109,8 @@ jobs:
       with:
         name: allure-report-${{ matrix.python-version }}
         path: allure-report/
+        retention-days: 30
+        if-no-files-found: warn
     
     - name: Upload test reports
       if: always()
@@ -103,6 +118,8 @@ jobs:
       with:
         name: test-reports-${{ matrix.python-version }}
         path: reports/
+        retention-days: 30
+        if-no-files-found: warn
 
   security-scan:
     runs-on: ubuntu-latest
@@ -112,7 +129,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
-        python-version: "3.11"
+        python-version: ${{ env.PYTHON_VERSION_DEFAULT }}
     
     - name: Install dependencies
       run: |
@@ -132,6 +149,8 @@ jobs:
         path: |
           bandit-report.json
           safety-report.json
+        retention-days: 30
+        if-no-files-found: warn
 
   performance-test:
     runs-on: ubuntu-latest
@@ -143,7 +162,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
-        python-version: "3.11"
+        python-version: ${{ env.PYTHON_VERSION_DEFAULT }}
     
     - name: Install dependencies
       run: |
@@ -159,6 +178,8 @@ jobs:
       with:
         name: performance-results
         path: reports/
+        retention-days: 30
+        if-no-files-found: warn
 
   deploy-docs:
     runs-on: ubuntu-latest
@@ -171,7 +192,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
-        python-version: "3.11"
+        python-version: ${{ env.PYTHON_VERSION_DEFAULT }}
     
     - name: Install dependencies
       run: |
@@ -181,18 +202,18 @@ jobs:
         
     - name: Install Allure CLI
       run: |
-        sudo apt-get update
-        sudo apt-get install -y default-jre
+        sudo apt-get update -qq
+        sudo apt-get install -y default-jre-headless
         curl -o allure-2.27.0.tgz -Ls https://github.com/allure-framework/allure2/releases/download/2.27.0/allure-2.27.0.tgz
         sudo tar -zxvf allure-2.27.0.tgz -C /opt/
-        sudo ln -s /opt/allure-2.27.0/bin/allure /usr/bin/allure
+        sudo ln -sf /opt/allure-2.27.0/bin/allure /usr/bin/allure
         allure --version
 
     - name: Generate test documentation
       run: |
-        python -m pytest tests/ --alluredir=allure-results
+        python -m pytest tests/ --alluredir=allure-results || true
         # Generate Allure report
-        allure generate allure-results -o allure-report --clean
+        allure generate allure-results -o allure-report --clean || echo "Allure report generation failed"
     
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v4

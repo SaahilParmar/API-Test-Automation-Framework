@@ -83,12 +83,12 @@ jobs:
         
         # First check for critical errors (syntax errors and undefined names)
         echo "Checking for critical errors..."
-        flake8 utils/ tests/ conftest.py setup.sh validate_workflow.py \
+        flake8 utils/ tests/ conftest.py validate_workflow.py \
           --count --select=E9,F63,F7,F82 --show-source --statistics
         
         # Then run full lint check on project files
         echo "Running full lint check..."
-        flake8 utils/ tests/ conftest.py setup.sh validate_workflow.py \
+        flake8 utils/ tests/ conftest.py validate_workflow.py \
           --count --statistics
     
     - name: Run smoke tests

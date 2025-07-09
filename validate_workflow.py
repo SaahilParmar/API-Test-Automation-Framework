@@ -57,6 +57,7 @@ def validate_workflow():
         print(f"❌ Error: {e}")
         return False
 
+
 if __name__ == "__main__":
     success = validate_workflow()
     sys.exit(0 if success else 1)

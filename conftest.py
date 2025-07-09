@@ -78,11 +78,10 @@ def base_url(config):
     env = config["env"]
     if env not in config["environments"]:
         raise KeyError(f"Environment '{env}' not found in config")
-    
     url = config["environments"][env]["base_url"]
     if not url:
         raise ValueError(f"Base URL not configured for environment: {env}")
-    
+
     return url
 
 
@@ -119,6 +118,3 @@ def attach_allure_logs(request):
                 name="Failure Debug Info",
                 attachment_type=allure.attachment_type.TEXT
             )
-
-
-

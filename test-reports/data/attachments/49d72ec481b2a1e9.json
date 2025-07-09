@@ -1,0 +1,6 @@
+{
+  "endpoint": "/users?page=1",
+  "response_time": "0.068s",
+  "timeout_limit": "5s",
+  "status_code": 200
+}

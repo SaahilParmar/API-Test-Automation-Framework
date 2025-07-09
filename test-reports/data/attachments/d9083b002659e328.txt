@@ -1,0 +1,1 @@
+INFO: API returns 200 for invalid endpoint (common for some APIs)

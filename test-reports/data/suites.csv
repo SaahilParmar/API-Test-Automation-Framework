@@ -1,0 +1,111 @@
+"Status","Start Time","Stop Time","Duration in ms","Parent Suite","Suite","Sub Suite","Test Class","Test Method","Name","Description"
+"passed","Wed Jul 09 12:57:35 UTC 2025","Wed Jul 09 12:57:35 UTC 2025","69","tests","test_user_retrieval","","","","GET Single User by ID","
+    Test retrieving a single user by ID.
+    Validates response status and schema.
+    "
+"passed","Wed Jul 09 12:57:32 UTC 2025","Wed Jul 09 12:57:32 UTC 2025","76","tests","test_error_scenarios","","","","GET User with Invalid ID Format","
+    Test retrieving a user with invalid ID formats.
+    Validates error handling for malformed requests.
+    "
+"passed","Wed Jul 09 12:57:32 UTC 2025","Wed Jul 09 12:57:32 UTC 2025","97","tests","test_api_validation","","","","Validate Single User Schema Compliance","
+    Comprehensive schema validation for single user endpoint.
+    Ensures response structure matches expected contract.
+    "
+"passed","Wed Jul 09 12:57:33 UTC 2025","Wed Jul 09 12:57:34 UTC 2025","289","tests","test_user_creation","","","","POST Create Users from Payloads","
+    Test creating users with multiple payloads (data-driven).
+    Validates response status and schema.
+    "
+"passed","Wed Jul 09 12:57:34 UTC 2025","Wed Jul 09 12:57:35 UTC 2025","286","tests","test_user_creation","","","","POST with Large Payload (Boundary Test)","
+    Test creating a user with a large payload (boundary test).
+    Validates response status and checks for required fields in response.
+    "
+"passed","Wed Jul 09 12:57:35 UTC 2025","Wed Jul 09 12:57:35 UTC 2025","78","tests","test_user_retrieval","","","","GET List of Users","
+    Test retrieving a paginated list of users.
+    Validates response status and schema.
+    "
+"passed","Wed Jul 09 12:57:33 UTC 2025","Wed Jul 09 12:57:33 UTC 2025","115","tests","test_error_scenarios","","","","GET User with Invalid ID Format","
+    Test retrieving a user with invalid ID formats.
+    Validates error handling for malformed requests.
+    "
+"passed","Wed Jul 09 12:57:34 UTC 2025","Wed Jul 09 12:57:34 UTC 2025","331","tests","test_user_creation","","","","POST Create Users from Payloads","
+    Test creating users with multiple payloads (data-driven).
+    Validates response status and schema.
+    "
+"passed","Wed Jul 09 12:57:35 UTC 2025","Wed Jul 09 12:57:35 UTC 2025","79","tests","test_user_retrieval","","","","GET Single User by ID","
+    Test retrieving a single user by ID.
+    Validates response status and schema.
+    "
+"passed","Wed Jul 09 12:57:35 UTC 2025","Wed Jul 09 12:57:35 UTC 2025","74","tests","test_user_retrieval","","","","GET User List - Different Pages","
+    Test retrieving user lists from different pages.
+    Validates pagination functionality.
+    "
+"passed","Wed Jul 09 12:57:33 UTC 2025","Wed Jul 09 12:57:33 UTC 2025","285","tests","test_error_scenarios","","","","POST User with Empty Payload","
+    Test creating a user with empty payload.
+    Validates API behavior with missing data.
+    "
+"passed","Wed Jul 09 12:57:32 UTC 2025","Wed Jul 09 12:57:32 UTC 2025","85","tests","test_error_scenarios","","","","GET Non-Existent User","
+    Test retrieving a non-existent user.
+    Expects a 404 Not Found response.
+    "
+"passed","Wed Jul 09 12:57:32 UTC 2025","Wed Jul 09 12:57:32 UTC 2025","69","tests","test_api_validation","","","","Validate Response Time Performance","
+    Test that API responses are returned within acceptable time limits.
+    Validates performance requirements.
+
+    Args:
+        endpoint (str): The API endpoint to test
+        base_url (str): Base URL from fixture
+        config (dict): Configuration fixture containing timeout settings
+    "
+"passed","Wed Jul 09 12:57:33 UTC 2025","Wed Jul 09 12:57:33 UTC 2025","107","tests","test_error_scenarios","","","","GET Non-existent User ID","
+    Test accessing a user with an ID that definitely doesn't exist.
+    ReqRes API returns 404 for non-existent user IDs.
+    "
+"passed","Wed Jul 09 12:57:33 UTC 2025","Wed Jul 09 12:57:33 UTC 2025","77","tests","test_error_scenarios","","","","GET Invalid Endpoint","
+    Test accessing an invalid/non-existent endpoint.
+    ReqRes API may handle invalid endpoints differently than expected.
+    "
+"passed","Wed Jul 09 12:57:34 UTC 2025","Wed Jul 09 12:57:34 UTC 2025","297","tests","test_user_creation","","","","POST Create Users from Payloads","
+    Test creating users with multiple payloads (data-driven).
+    Validates response status and schema.
+    "
+"passed","Wed Jul 09 12:57:32 UTC 2025","Wed Jul 09 12:57:32 UTC 2025","75","tests","test_error_scenarios","","","","GET User with Invalid ID Format","
+    Test retrieving a user with invalid ID formats.
+    Validates error handling for malformed requests.
+    "
+"passed","Wed Jul 09 12:57:35 UTC 2025","Wed Jul 09 12:57:35 UTC 2025","64","tests","test_user_retrieval","","","","GET Single User by ID","
+    Test retrieving a single user by ID.
+    Validates response status and schema.
+    "
+"passed","Wed Jul 09 12:57:35 UTC 2025","Wed Jul 09 12:57:35 UTC 2025","288","tests","test_user_creation","","","","POST Create User with Minimal Data","
+    Test creating a user with minimal required data.
+    Validates that the API accepts minimal payloads.
+    "
+"passed","Wed Jul 09 12:57:35 UTC 2025","Wed Jul 09 12:57:35 UTC 2025","79","tests","test_user_retrieval","","","","GET User List - Different Pages","
+    Test retrieving user lists from different pages.
+    Validates pagination functionality.
+    "
+"passed","Wed Jul 09 12:57:32 UTC 2025","Wed Jul 09 12:57:32 UTC 2025","67","tests","test_api_validation","","","","Validate Response Time Performance","
+    Test that API responses are returned within acceptable time limits.
+    Validates performance requirements.
+
+    Args:
+        endpoint (str): The API endpoint to test
+        base_url (str): Base URL from fixture
+        config (dict): Configuration fixture containing timeout settings
+    "
+"passed","Wed Jul 09 12:57:33 UTC 2025","Wed Jul 09 12:57:33 UTC 2025","281","tests","test_error_scenarios","","","","POST User with Invalid JSON","
+    Test creating a user with malformed JSON.
+    Validates API error handling for invalid request format.
+    "
+"passed","Wed Jul 09 12:57:32 UTC 2025","Wed Jul 09 12:57:32 UTC 2025","119","tests","test_api_validation","","","","Validate Standard Headers","
+    Test that standard headers are present and correct in the API response.
+    Validates content type, encoding, and other standard HTTP headers.
+    "
+"passed","Wed Jul 09 12:57:32 UTC 2025","Wed Jul 09 12:57:32 UTC 2025","72","tests","test_api_validation","","","","Validate User List Schema Compliance","
+    Comprehensive schema validation for user list endpoint.
+    Ensures all required fields and data types are correct.
+    "
+"passed","Wed Jul 09 12:57:32 UTC 2025","Wed Jul 09 12:57:33 UTC 2025","107","tests","test_error_scenarios","","","","GET User with Invalid ID Format","
+    Test retrieving a user with invalid ID formats.
+    Validates error handling for malformed requests.
+    "

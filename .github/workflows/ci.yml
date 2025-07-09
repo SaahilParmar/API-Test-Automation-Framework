@@ -12,7 +12,7 @@ name: API Test Automation CI/CD
 
 # Add concurrency control to prevent resource conflicts
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}-${{ matrix.python-version }}
+  group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 permissions:

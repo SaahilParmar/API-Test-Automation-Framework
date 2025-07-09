@@ -1,0 +1,25 @@
+[flake8]
+max-line-length = 127
+max-complexity = 10
+extend-ignore = E203
+exclude =
+    .git,
+    __pycache__,
+    .pytest_cache,
+    .venv,
+    venv,
+    build,
+    dist,
+    *.egg-info
+
+# Specific file exclusions
+per-file-ignores =
+    # Allow fixtures to have unused arguments
+    conftest.py:U,F811
+
+# Error codes reference:
+# E9 - Fatal errors (syntax errors, undefined names)
+# F63 - Use of deprecated methods
+# F7 - Flake8 plugin errors
+# F82 - Undefined names
+# E203 - Whitespace before ':' (conflicts with black)

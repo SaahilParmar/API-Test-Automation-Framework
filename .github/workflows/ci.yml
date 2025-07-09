@@ -216,6 +216,17 @@ jobs:
     needs: test
     if: github.ref == 'refs/heads/main'
     
+    # Allow GITHUB_TOKEN to deploy to GitHub Pages
+    permissions:
+      contents: write
+      pages: write
+      id-token: write
+    
+    # Deploy to the github-pages environment
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    
     steps:
     - uses: actions/checkout@v4
     
@@ -245,16 +256,17 @@ jobs:
         # Generate Allure report
         allure generate allure-results -o allure-report --clean || echo "Allure report generation failed"
     
-    - name: Deploy to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v3
+    - name: Setup Pages
+      uses: actions/configure-pages@v4
+    
+    - name: Upload artifact
+      uses: actions/upload-pages-artifact@v3
       with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./allure-report
-        destination_dir: test-reports
-        force_orphan: true
-        user_name: 'github-actions[bot]'
-        user_email: 'github-actions[bot]@users.noreply.github.com'
-        commit_message: 'docs: update test reports'
+        path: './allure-report'
+    
+    - name: Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v4
 
   notify:
     runs-on: ubuntu-latest

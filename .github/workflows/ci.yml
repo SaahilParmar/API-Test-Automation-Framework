@@ -22,6 +22,7 @@ permissions:
   actions: read
   checks: write
   deployments: write
+  security-events: write
 
 env:
   PYTHON_VERSION_DEFAULT: "3.11"
@@ -212,17 +213,8 @@ jobs:
         if-no-files-found: warn
 
   deploy-docs:
+    needs: [test]
     runs-on: ubuntu-latest
-    needs: test
-    if: github.ref == 'refs/heads/main'
-    
-    # Allow GITHUB_TOKEN to deploy to GitHub Pages
-    permissions:
-      contents: write
-      pages: write
-      id-token: write
-    
-    # Deploy to the github-pages environment
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -240,7 +232,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
         pip install allure-pytest
-        
+    
     - name: Install Allure CLI
       run: |
         sudo apt-get update -qq
@@ -249,7 +241,7 @@ jobs:
         sudo tar -zxvf allure-2.27.0.tgz -C /opt/
         sudo ln -sf /opt/allure-2.27.0/bin/allure /usr/bin/allure
         allure --version
-
+    
     - name: Generate test documentation
       run: |
         python -m pytest tests/ --alluredir=allure-results || true
@@ -259,10 +251,10 @@ jobs:
     - name: Setup Pages
       uses: actions/configure-pages@v4
     
-    - name: Upload artifact
+    - name: Upload Pages artifact
       uses: actions/upload-pages-artifact@v3
       with:
-        path: './allure-report'
+        path: allure-report
     
     - name: Deploy to GitHub Pages
       id: deployment

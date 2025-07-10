@@ -134,7 +134,7 @@ API-Test-Automation-Framework/
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-username/API-Test-Automation-Framework.git
+   git clone https://github.com/SaahilParmar/API-Test-Automation-Framework.git
    cd API-Test-Automation-Framework
    ```
 

@@ -69,10 +69,6 @@ API-Test-Automation-Framework/
 └── setup.sh           # Environment setup script
 ```
 
-📸 *Screenshot of project structure:*  
-![Project_Structure]()
-
-
 ---
 
 ## ⚙️ Prerequisites

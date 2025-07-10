@@ -126,10 +126,6 @@ API-Test-Automation-Framework/
    scoop install allure
    ```
 
-📸 Chrome installation step (Linux):
-![Chrome Installed](images/2_chrome_install.jpg)
-
-
 ---
 
 ---

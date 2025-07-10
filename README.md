@@ -223,7 +223,7 @@ API-Test-Automation-Framework/
 ## 📊 Test Execution & Reports
 
 ### Successful Test Run
-![Successful Test Run](images/test-execution.png)
+![Successful Test Run](images/successful_test_run.jpg)
 *Example of a successful test execution showing all test categories passing*
 
 ### Allure Report Dashboard

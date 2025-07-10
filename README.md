@@ -319,6 +319,6 @@ The documentation is automatically updated on each successful merge to main.
 
 For issues and feature requests, please use the GitHub Issues tracker.
 
-## 📝 License
+## 📄 License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

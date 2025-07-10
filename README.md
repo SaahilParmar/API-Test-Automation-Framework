@@ -13,6 +13,48 @@ A professional, enterprise-grade API testing framework built with Python. This f
 ### Architecture
 ![Framework Architecture](images/architecture.png)
 
+
+
+graph TB
+    subgraph "Framework Components"
+        Tests[Test Suites<br/>tests/]
+        Utils[Utilities<br/>utils/]
+        Config[Configuration<br/>config/]
+        Schemas[JSON Schemas<br/>schemas/]
+        Data[Test Data<br/>data/]
+    end
+    
+    subgraph "External Systems"
+        API[ReqRes API<br/>reqres.in]
+        CI[GitHub Actions<br/>CI/CD]
+        Reports[Allure Reports]
+    end
+    
+    Tests --> Utils
+    Utils --> API
+    Tests --> Config
+    Tests --> Schemas
+    Tests --> Data
+    API --> Utils
+    Tests --> Reports
+    CI --> Tests
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 This diagram shows how different components of the framework interact with each other.
 
 This framework is designed to test the [ReqRes Public API](https://reqres.in/) but can be adapted for any RESTful API. It incorporates:

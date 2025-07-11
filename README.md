@@ -11,7 +11,7 @@ A professional, enterprise-grade API testing framework built with Python. This f
 ## 📋 Overview
 
 ### Architecture
-![Framework Architecture](images/Project_2_framework_architecture.PNG)
+![Framework Architecture](images/p2_framework_architecture.jpg)
 
 This diagram shows how different components of the framework interact with each other.
 
@@ -223,7 +223,7 @@ API-Test-Automation-Framework/
 ## 📊 Test Execution & Reports
 
 ### Successful Test Run
-![Successful Test Run](images/successful_test_run.jpg)
+![Successful Test Run](images/successful_test_run.PNG)
 *Example of a successful test execution showing all test categories passing*
 
 ### Allure Report Dashboard

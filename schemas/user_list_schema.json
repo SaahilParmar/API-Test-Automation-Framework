@@ -1,13 +1,8 @@
 {
-  // User List Response Schema
-  // This schema validates the response from GET /api/users endpoint
-  // It defines the structure for paginated user list responses
-  // Version: 1.0.0
-  // Last Updated: 2025-07-11
-  // Endpoint: GET /api/users?page={page}
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "UserListResponse",
-  "description": "Schema for paginated user list response from ReqRes API",
+  "description": "Schema for paginated user list response from ReqRes API (GET /api/users endpoint)",
+  "$comment": "Version: 1.0.0 | Last Updated: 2025-07-11",
   "type": "object",
   "required": ["page", "per_page", "total", "total_pages", "data", "support"],
   "properties": {

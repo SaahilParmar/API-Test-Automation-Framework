@@ -1,22 +1,35 @@
 """
-test_api_validation.py
+test_api_validation.py - API Contract Testing
 
-Test    with allure.step("Send GET request to /users?page=1 with retry resilience"):
-        try:
-            url = f"{base_url}/users?page=1"
-            response = make_resilient_get_request(url, headers=get_headers(), timeout=10)
-            log_request_response(response)  # Enhanced logging
-        except requests.exceptions.RequestException as e:
-            allure.attach(str(e), "Request Error", allure.attachment_type.TEXT)
-            raise
+This module implements contract tests for the ReqRes API, focusing on:
+1. Schema Validation: Ensures API responses match defined JSON schemas
+2. Header Validation: Verifies correct content types and response headers
+3. Response Format: Validates data structure and field types
+4. Error Handling: Tests API error responses and status codes
 
-    with allure.step("Verify response status is 200"):cused on API contract validation and da    with allure.step("Send GET request to /users?page=1"):
-        url = f"{base_url}/users?page=1"
-        response = requests.get(url, headers=get_headers())
-        log_request_response(response)  # Enhanced logging
+Test Categories:
+    - Contract Testing (@pytest.mark.contract)
+    - Response Validation (@pytest.mark.response)
+    - Schema Validation (@pytest.mark.schema)
+    - Error Response (@pytest.mark.error)
 
-    with allure.step("Verify response status is 200"):tegrity.
-Covers schema validation, header validation, and response format testing.
+Each test is documented with:
+    - Purpose and description
+    - Prerequisites and dependencies
+    - Expected results
+    - Allure annotations for reporting
+
+Example Test Structure:
+    @pytest.mark.contract
+    def test_user_schema():
+        1. Send request to API
+        2. Validate response against schema
+        3. Check specific fields
+        4. Verify error cases
+
+Required Fixtures:
+    - base_url: API base URL from config
+    - request_id: Unique test identifier
 """
 
 import pytest

@@ -1,15 +1,43 @@
 """
-test_user_retrieval.py
-        try:
-            url = f"{base_url}/users?page=1"
-            response = requests.get(url, headers=get_headers(), timeout=10)
-            log_request_response(response)  # Enhanced logging
-        except requests.exceptions.RequestException as e:
-            allure.attach(str(e), "Request Error", allure.attachment_type.TEXT)
-            raise
+test_user_retrieval.py - User Retrieval API Tests
 
-    with allure.step("Verify response status is 200"):dule focused on user retrieval operations (GET requests).
-Covers listing users, retrieving single users, and related functionality.
+This module implements tests for user retrieval endpoints in the ReqRes API.
+It covers GET operations for both single user and user list endpoints, including
+pagination, filtering, and response validation.
+
+Endpoints Tested:
+    1. List Users (/users)
+        - Pagination
+        - Per page limits
+        - Total count validation
+    2. Single User (/users/{id})
+        - Valid user IDs
+        - Response format
+        - User data structure
+    3. User Filtering
+        - Query parameters
+        - Sort options
+        - Field selection
+
+Response Validation:
+    - Status codes (200, 404)
+    - JSON schema compliance
+    - Data structure
+    - Field types and formats
+    - Pagination metadata
+
+Test Categories:
+    - Smoke Tests (@pytest.mark.smoke)
+    - User Retrieval (@pytest.mark.user_retrieval)
+    - Pagination (@pytest.mark.pagination)
+
+Required Fixtures:
+    - base_url: API base URL from config
+    - request_id: Unique identifier for each request
+
+Schema Validation:
+    Uses schemas/user_list_schema.json and schemas/single_user_schema.json
+    to validate response formats
 """
 
 import pytest

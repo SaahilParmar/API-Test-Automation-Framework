@@ -1,12 +1,39 @@
 """
-api_utils.py
+api_utils.py - API Testing Utility Functions
 
-Utility functions for API test automation:
-- Loads configuration and schema files.
-- Provides default HTTP headers.
-- Implements request retry logic.
-- Attaches request/response details to Allure reports.
-- Validates API responses against JSON schemas.
+This module provides core functionality for API testing, including:
+- Configuration management (loading and parsing config files)
+- Schema validation (JSON schema loading and response validation)
+- HTTP request handling (headers, retry logic, response processing)
+- Test reporting (Allure integration for requests and responses)
+- Error handling (custom exceptions and retry mechanisms)
+
+The module is designed to work with the ReqRes API (https://reqres.in/) but can be
+adapted for any RESTful API testing needs.
+
+Classes:
+    None
+
+Functions:
+    load_config() -> dict: Load and parse the config.yaml file
+    load_schema(schema_filename: str) -> dict: Load a JSON schema file
+    get_headers() -> dict: Get default HTTP headers from config
+    retry_request(func) -> callable: Decorator for request retry logic
+    validate_response(response: Response, schema: dict) -> None: Validate response against schema
+    attach_request_details(response: Response) -> None: Add request details to Allure report
+
+Dependencies:
+    - pyyaml: For parsing config.yaml
+    - requests: For HTTP requests
+    - jsonschema: For JSON schema validation
+    - allure-pytest: For test reporting
+
+Example Usage:
+    >>> config = load_config()
+    >>> headers = get_headers()
+    >>> response = requests.get(f"{config['base_url']}/users", headers=headers)
+    >>> schema = load_schema("user_list_schema.json")
+    >>> validate_response(response, schema)
 """
 
 import yaml

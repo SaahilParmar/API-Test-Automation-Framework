@@ -1,8 +1,45 @@
 """
-test_user_creation.py
+test_user_creation.py - User Creation API Tests
 
-Test module focused on user creation operations (POST requests).
-Covers data-driven testing, boundary testing, and user creation scenarios.
+This module implements data-driven tests for user creation endpoints in the ReqRes API.
+It focuses on POST operations with various payload combinations and validates the
+creation responses.
+
+Features Tested:
+    1. User Creation
+        - Valid user data
+        - Required fields only
+        - All fields populated
+        - Special characters in names
+    2. Response Validation
+        - Status code (201)
+        - Response schema
+        - Created user data
+    3. Edge Cases
+        - Minimum/maximum field lengths
+        - Unicode characters
+        - Whitespace handling
+
+Test Data:
+    Location: data/post_user_payloads.json
+    Format: List of user creation payloads
+    Example:
+        [
+            {
+                "name": "John Doe",
+                "job": "Developer"
+            },
+            ...
+        ]
+
+Test Categories:
+    - Smoke Tests (@pytest.mark.smoke)
+    - User Creation (@pytest.mark.user_creation)
+    - Data Validation (@pytest.mark.validation)
+
+Required Fixtures:
+    - base_url: API base URL from config
+    - request_id: Unique identifier for each request
 """
 
 import pytest

@@ -1,3 +1,39 @@
+"""
+conftest.py - Pytest Configuration and Fixtures
+
+This module provides pytest configuration and fixtures for the API testing framework.
+It handles test setup, environment configuration, and common test dependencies.
+
+Configuration:
+    - Defines custom pytest markers
+    - Sets up directory structure for reports
+    - Creates Allure environment properties
+    - Validates configuration files
+
+Fixtures:
+    config (session): Provides access to configuration data
+    base_url (session): Base URL for API requests
+    request_id (function): Unique identifier for each request
+    log_test_start (function): Logs test start with metadata
+
+Usage:
+    The fixtures are automatically available to all test files.
+    Example:
+        def test_get_users(base_url, request_id):
+            response = requests.get(f"{base_url}/users")
+            assert response.status_code == 200
+
+Environment Variables:
+    TEST_ENV: Override the environment from config.yaml (default: 'dev')
+    DEBUG: Enable debug logging (default: False)
+
+Directory Structure:
+    /config/
+        config.yaml: Main configuration file
+    /reports/
+        environment.properties: Allure environment data
+"""
+
 import pytest
 import allure
 import os

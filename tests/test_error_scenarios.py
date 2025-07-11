@@ -1,10 +1,41 @@
 """
-test_error_scenarios.p        url = f"{base_url}/users/999"
-        response = requests.get(url, headers=get_headers(), timeout=10)
-        log_request_response(response)  # Enhanced logging
+test_error_scenarios.py - API Error Handling Tests
 
-    with allure.step("Verify response status is 404"):est module focused on error scenarios and negative testing.
-Covers 404 errors, invalid requests, and edge cases.
+This module implements negative testing and error scenarios for the ReqRes API.
+It verifies that the API handles error conditions gracefully and returns
+appropriate error responses.
+
+Test Categories:
+    - Non-existent Resources (@pytest.mark.not_found)
+    - Invalid Input (@pytest.mark.invalid_input)
+    - Authentication Errors (@pytest.mark.auth)
+    - Rate Limiting (@pytest.mark.rate_limit)
+
+Error Scenarios Tested:
+    1. Resource Not Found (404)
+        - Non-existent users
+        - Deleted resources
+    2. Invalid Requests (400)
+        - Malformed JSON
+        - Missing required fields
+        - Invalid data types
+    3. Authentication (401/403)
+        - Invalid tokens
+        - Missing credentials
+    4. Rate Limiting (429)
+        - Excessive requests
+        - Throttling behavior
+
+Best Practices Implemented:
+    - Detailed error response validation
+    - Error message content verification
+    - HTTP status code checking
+    - Response header validation
+    - Error response schema validation
+
+Required Fixtures:
+    - base_url: API base URL from config
+    - invalid_token: Invalid authentication token
 """
 
 import pytest

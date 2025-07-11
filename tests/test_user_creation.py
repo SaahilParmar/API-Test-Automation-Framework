@@ -11,7 +11,7 @@ import json
 import allure
 import os
 from jsonschema import validate
-from utils.api_utils import load_schema, get_headers
+from utils.api_utils import load_schema, get_headers, log_request_response, validate_response_schema
 
 
 def load_test_data():
@@ -49,6 +49,7 @@ def test_create_user(base_url, payload):
         try:
             url = f"{base_url}/users"
             response = requests.post(url, json=payload, headers=get_headers(), timeout=10)
+            log_request_response(response)  # Enhanced logging
         except requests.exceptions.RequestException as e:
             allure.attach(str(e), "Request Error", allure.attachment_type.TEXT)
             raise
@@ -60,24 +61,8 @@ def test_create_user(base_url, payload):
         )
 
     with allure.step("Validate response against schema"):
-        try:
-            response_data = response.json()
-        except json.JSONDecodeError as e:
-            allure.attach(response.text, "Invalid JSON Response", allure.attachment_type.TEXT)
-            allure.attach(str(e), "JSON Parse Error", allure.attachment_type.TEXT)
-            raise
-
-        try:
-            schema = load_schema("create_user_schema.json")
-            validate(instance=response_data, schema=schema)
-        except Exception as e:
-            allure.attach(
-                json.dumps(response_data, indent=2),
-                "Response Data",
-                allure.attachment_type.JSON
-            )
-            allure.attach(str(e), "Schema Validation Error", allure.attachment_type.TEXT)
-            raise
+        validate_response_schema(response, "create_user_schema.json")  # Using utility function
+        response_data = response.json()
 
     with allure.step("Verify created user data matches input"):
         assert response_data["name"] == payload["name"], (

@@ -1,7 +1,9 @@
 """
-test_error_scenarios.py
+test_error_scenarios.p        url = f"{base_url}/users/999"
+        response = requests.get(url, headers=get_headers(), timeout=10)
+        log_request_response(response)  # Enhanced logging
 
-Test module focused on error scenarios and negative testing.
+    with allure.step("Verify response status is 404"):est module focused on error scenarios and negative testing.
 Covers 404 errors, invalid requests, and edge cases.
 """
 
@@ -9,7 +11,7 @@ import pytest
 import requests
 import allure
 import json
-from utils.api_utils import get_headers
+from utils.api_utils import get_headers, log_request_response
 
 
 @pytest.mark.error_scenarios

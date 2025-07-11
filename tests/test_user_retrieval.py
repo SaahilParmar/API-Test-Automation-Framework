@@ -1,7 +1,14 @@
 """
 test_user_retrieval.py
+        try:
+            url = f"{base_url}/users?page=1"
+            response = requests.get(url, headers=get_headers(), timeout=10)
+            log_request_response(response)  # Enhanced logging
+        except requests.exceptions.RequestException as e:
+            allure.attach(str(e), "Request Error", allure.attachment_type.TEXT)
+            raise
 
-Test module focused on user retrieval operations (GET requests).
+    with allure.step("Verify response status is 200"):dule focused on user retrieval operations (GET requests).
 Covers listing users, retrieving single users, and related functionality.
 """
 
@@ -10,7 +17,7 @@ import requests
 import allure
 import json
 from jsonschema import validate, ValidationError
-from utils.api_utils import load_schema, get_headers
+from utils.api_utils import load_schema, get_headers, log_request_response
 
 
 @pytest.mark.user_retrieval

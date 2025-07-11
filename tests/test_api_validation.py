@@ -1,7 +1,21 @@
 """
 test_api_validation.py
 
-Test module focused on API contract validation and data integrity.
+Test    with allure.step("Send GET request to /users?page=1 with retry resilience"):
+        try:
+            url = f"{base_url}/users?page=1"
+            response = make_resilient_get_request(url, headers=get_headers(), timeout=10)
+            log_request_response(response)  # Enhanced logging
+        except requests.exceptions.RequestException as e:
+            allure.attach(str(e), "Request Error", allure.attachment_type.TEXT)
+            raise
+
+    with allure.step("Verify response status is 200"):cused on API contract validation and da    with allure.step("Send GET request to /users?page=1"):
+        url = f"{base_url}/users?page=1"
+        response = requests.get(url, headers=get_headers())
+        log_request_response(response)  # Enhanced logging
+
+    with allure.step("Verify response status is 200"):tegrity.
 Covers schema validation, header validation, and response format testing.
 """
 
@@ -11,7 +25,7 @@ import allure
 import json
 import time
 from jsonschema import validate
-from utils.api_utils import load_schema, get_headers
+from utils.api_utils import load_schema, get_headers, log_request_response, retry_request, validate_response_schema
 
 
 @pytest.mark.api_validation
@@ -29,6 +43,7 @@ def test_headers_validation(base_url):
         try:
             url = f"{base_url}/users?page=1"
             response = requests.get(url, headers=get_headers(), timeout=10)
+            log_request_response(response)  # Enhanced logging
         except requests.exceptions.RequestException as e:
             allure.attach(str(e), "Request Error", allure.attachment_type.TEXT)
             raise
@@ -86,9 +101,8 @@ def test_user_list_schema_validation(base_url):
         assert response.status_code == 200
 
     with allure.step("Load and apply schema validation"):
+        validate_response_schema(response, "user_list_schema.json")  # Using utility function
         data = response.json()
-        schema = load_schema("user_list_schema.json")
-        validate(instance=data, schema=schema)
 
     with allure.step("Validate specific data structure"):
         assert "data" in data
@@ -127,14 +141,14 @@ def test_single_user_schema_validation(base_url):
     with allure.step("Send GET request to single user endpoint"):
         url = f"{base_url}/users/2"
         response = requests.get(url, headers=get_headers())
+        log_request_response(response)  # Enhanced logging
 
     with allure.step("Verify response status is 200"):
         assert response.status_code == 200
 
     with allure.step("Load and apply schema validation"):
+        validate_response_schema(response, "single_user_schema.json")  # Using utility function
         data = response.json()
-        schema = load_schema("single_user_schema.json")
-        validate(instance=data, schema=schema)
 
     with allure.step("Validate user data structure"):
         assert "data" in data
@@ -178,6 +192,7 @@ def test_response_time_validation(endpoint, base_url, config):
             start_time = time.perf_counter()
             response = requests.get(url, headers=get_headers(), timeout=10)
             response_time = time.perf_counter() - start_time
+            log_request_response(response)  # Enhanced logging
         except requests.exceptions.RequestException as e:
             allure.attach(str(e), "Request Error", allure.attachment_type.TEXT)
             raise
@@ -207,3 +222,21 @@ def test_response_time_validation(endpoint, base_url, config):
             "Performance Metrics",
             allure.attachment_type.JSON
         )
+
+
+@retry_request
+def make_resilient_get_request(url, headers=None, timeout=10):
+    """
+    Make a GET request with automatic retry logic for transient failures.
+    Uses retry configuration from config.yaml.
+    """
+    return requests.get(url, headers=headers, timeout=timeout)
+
+
+@retry_request
+def make_resilient_post_request(url, json=None, headers=None, timeout=10):
+    """
+    Make a POST request with automatic retry logic for transient failures.
+    Uses retry configuration from config.yaml.
+    """
+    return requests.post(url, json=json, headers=headers, timeout=timeout)

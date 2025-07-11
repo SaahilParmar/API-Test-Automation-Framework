@@ -1,3 +1,25 @@
+# API Test Automation Framework - CI/CD Pipeline
+# This workflow automates testing, security scanning, and documentation deployment
+# for the API Test Automation Framework.
+#
+# Triggers:
+# - Push to main/develop/fix/feature branches
+# - Pull requests to main
+# - Daily at 6 AM UTC (Scheduled health check)
+# - Manual trigger (workflow_dispatch)
+#
+# Jobs:
+# 1. test: Runs test suite across Python versions
+# 2. security-scan: Performs security analysis
+# 3. performance-test: Runs performance tests
+# 4. deploy-docs: Deploys documentation to GitHub Pages
+# 5. notify: Sends notifications on failure
+#
+# Environment Setup:
+# - Uses Python matrix strategy (3.10, 3.11, 3.12)
+# - Caches pip dependencies
+# - Sets up Java for Allure reporting
+
 name: API Test Automation CI/CD
 
 'on':
@@ -6,9 +28,9 @@ name: API Test Automation CI/CD
   pull_request:
     branches: [ main ]
   schedule:
-    # Run tests daily at 6 AM UTC
+    # Run tests daily at 6 AM UTC for health check
     - cron: '0 6 * * *'
-  workflow_dispatch:
+  workflow_dispatch:  # Allows manual trigger
 
 # Add concurrency control to prevent resource conflicts
 concurrency:

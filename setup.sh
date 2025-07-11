@@ -1,7 +1,24 @@
 #!/bin/bash
 
-# setup.sh - Setup script for API Test Automation Framework
-# This script sets up the virtual environment and installs dependencies
+# setup.sh - Environment Setup Script
+# -----------------------------------------------------------------------------
+# This script automates the setup process for the API Test Automation Framework.
+# It performs the following tasks:
+# 1. Validates Python installation
+# 2. Creates/activates virtual environment (.venv)
+# 3. Installs project dependencies
+# 4. Sets up Allure reporting
+# 5. Validates schema and data files
+#
+# Usage:
+#   ./setup.sh          # Standard setup
+#   ./setup.sh --force  # Force reinstall of dependencies
+#
+# Requirements:
+#   - Python 3.10 or higher
+#   - pip package manager
+#   - bash-compatible shell
+# -----------------------------------------------------------------------------
 
 set -e
 

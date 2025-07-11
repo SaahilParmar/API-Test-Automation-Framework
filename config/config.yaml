@@ -1,8 +1,30 @@
-# config.yaml
+# config.yaml - Framework Configuration
 # -----------------------------------------------------------------------------
-# Configuration file for environment settings and global test behavior.
-# This file controls which environment is active, API endpoints, authentication,
-# request timeouts, retry logic, and default HTTP headers for all API tests.
+# Main configuration file for the API Test Automation Framework.
+#
+# Configuration Categories:
+# 1. Environment Selection
+#    - Controls which environment (dev/staging) is active
+#    - Defines environment-specific settings
+#
+# 2. API Settings
+#    - Base URLs for different environments
+#    - Authentication tokens and credentials
+#    - Default request timeouts
+#
+# 3. Test Behavior
+#    - Retry logic for flaky tests
+#    - Default HTTP headers
+#    - Logging levels
+#
+# 4. Performance Settings
+#    - Request timeouts
+#    - Rate limiting
+#    - Concurrent request limits
+#
+# Usage:
+# The framework automatically loads this configuration via utils.api_utils.load_config()
+# Override settings using environment variables where needed
 # -----------------------------------------------------------------------------
 
 # Select which environment to use: dev or staging

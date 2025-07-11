@@ -227,7 +227,16 @@ API-Test-Automation-Framework/
 *Example of a successful test execution showing all test categories passing*
 
 ### Allure Report Dashboard
-![Allure Dashboard](images/allure-dashboard.png)
+![Allure Dashboard](images/dashboard_1.PNG)
+![Allure Dashboard](images/dashboard_2.PNG)
+![Allure Dashboard](images/dashboard_3.PNG)
+![Allure Dashboard](images/dashboard_4.PNG)
+![Allure Dashboard](images/dashboard_5.PNG)
+![Allure Dashboard](images/dashboard_6.PNG)
+![Allure Dashboard](images/dashboard_7.PNG)
+![Allure Dashboard](images/dashboard_8.PNG)
+![Allure Dashboard](images/dashboard_9.PNG)
+![Allure Dashboard](images/dashboard_10.PNG)
 *Comprehensive test results with trends, behaviors, and detailed test cases*
 
 ### Code Coverage

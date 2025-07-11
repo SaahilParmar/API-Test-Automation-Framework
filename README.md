@@ -11,7 +11,7 @@ A professional, enterprise-grade API testing framework built with Python. This f
 ## 📋 Overview
 
 ### Architecture
-![Framework Architecture](images/p2_framework_architecture.jpg)
+![Framework Architecture](images/Project_2_framework_architecture.PNG)
 
 This diagram shows how different components of the framework interact with each other.
 

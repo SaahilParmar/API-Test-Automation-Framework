@@ -240,7 +240,7 @@ API-Test-Automation-Framework/
 *Comprehensive test results with trends, behaviors, and detailed test cases*
 
 ### Code Coverage
-![Coverage Report](images/coverage-report.png)
+![Coverage Report](images/code_coverage.PNG)
 *HTML coverage report showing test coverage across the codebase*
 
 ## 🔍 Test Categories

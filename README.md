@@ -8,7 +8,28 @@
 
 A professional, enterprise-grade API testing framework built with Python. This framework demonstrates modern testing practices including contract testing, data-driven testing, and comprehensive CI/CD integration.
 
-## 📋 Overview
+## � Table of Contents
+
+- [📋 Overview](#-overview)
+- [✅ Features](#-features)
+- [🗂️ Project Structure](#️-project-structure)
+- [🔌 API Endpoints](#-api-endpoints)
+- [⚙️ Prerequisites](#️-prerequisites)
+- [🛠️ Installation](#️-installation)
+- [🚀 Quick Start](#-quick-start)
+- [🛠️ Development Setup](#️-development-setup)
+- [🧪 Running Tests](#-running-tests)
+- [📊 Generating Reports](#-generating-reports)
+- [📊 Test Execution & Reports](#-test-execution--reports)
+- [🔍 Test Categories](#-test-categories)
+- [👥 Contributing](#-contributing)
+- [🔐 Security](#-security)
+- [📚 Documentation](#-documentation)
+- [⚠️ Common Issues & Solutions](#️-common-issues--solutions)
+- [🤝 Support](#-support)
+- [📄 License](#-license)
+
+## �📋 Overview
 
 ### Architecture
 ![Framework Architecture](images/p2_framework_architecture.jpg)
@@ -68,6 +89,34 @@ API-Test-Automation-Framework/
 ├── requirements.txt    # Project dependencies
 └── setup.sh           # Environment setup script
 ```
+
+---
+
+## 🔌 API Endpoints
+
+This framework tests the [ReqRes API](https://reqres.in/), a hosted REST-API ready to respond to your AJAX requests. The following endpoints are covered:
+
+### User Management
+- **GET** `/api/users` - List users with pagination
+- **GET** `/api/users/{id}` - Get single user by ID
+- **POST** `/api/users` - Create new user
+- **PUT** `/api/users/{id}` - Update existing user
+- **PATCH** `/api/users/{id}` - Partially update user
+- **DELETE** `/api/users/{id}` - Delete user
+
+### Authentication & Resources
+- **POST** `/api/login` - User login
+- **POST** `/api/register` - User registration
+- **GET** `/api/unknown` - List resources
+- **GET** `/api/unknown/{id}` - Get single resource
+
+### Test Coverage
+- ✅ **Positive scenarios**: Valid requests with expected responses
+- ✅ **Negative scenarios**: Invalid requests, malformed data, non-existent resources
+- ✅ **Edge cases**: Boundary values, empty payloads, special characters
+- ✅ **Performance**: Response time validation
+- ✅ **Security**: Input validation and error handling
+- ✅ **Contract testing**: JSON schema validation for all responses
 
 ---
 

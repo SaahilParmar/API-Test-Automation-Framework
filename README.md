@@ -205,7 +205,8 @@ This framework tests the [ReqRes API](https://reqres.in/), a hosted REST-API rea
    pytest tests/ -m smoke    # Run smoke tests only
    ```
 
-⚠️ Important: Always use the `.venv` virtual environment. This is the standard environment used by our CI/CD workflow and ensures consistent test execution across all environments.
+⚠️ Important: Use a .venv virtual environment locally to isolate dependencies.
+CI/CD pipelines install requirements fresh on every run.
 
 ## 🛠️ Development Setup
 
